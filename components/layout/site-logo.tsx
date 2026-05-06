@@ -7,6 +7,9 @@ interface SiteLogoProps {
   priority?: boolean;
 }
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const logoSrc = `${basePath}/brand/tsa-logo.png`;
+
 export function SiteLogo({ className, priority = false }: SiteLogoProps) {
   return (
     <Image
@@ -14,7 +17,7 @@ export function SiteLogo({ className, priority = false }: SiteLogoProps) {
       className={cn("h-9 w-auto", className)}
       height={146}
       priority={priority}
-      src="/brand/tsa-logo.png"
+      src={logoSrc}
       width={409}
     />
   );
