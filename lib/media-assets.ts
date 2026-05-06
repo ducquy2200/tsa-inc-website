@@ -21,6 +21,52 @@ type RawRouteMediaStory = Omit<RouteMediaStory, "scenes"> & {
 
 type RouteSceneTemplate = Array<{ title: string; description: string }>;
 
+function resolveStaticBasePath() {
+  const envBasePath = process.env.NEXT_PUBLIC_BASE_PATH?.trim();
+  if (envBasePath) {
+    return envBasePath === "/" ? "" : envBasePath.replace(/\/$/, "");
+  }
+
+  const isGithubActions = process.env.GITHUB_ACTIONS === "true";
+  const repo = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "";
+  const isUserOrOrgPagesRepo = repo.endsWith(".github.io");
+
+  if (!isGithubActions || !repo || isUserOrOrgPagesRepo) {
+    return "";
+  }
+
+  return `/${repo}`;
+}
+
+const staticBasePath = resolveStaticBasePath();
+
+function withBasePath(path: string) {
+  if (!path.startsWith("/") || !staticBasePath) {
+    return path;
+  }
+
+  if (path === staticBasePath || path.startsWith(`${staticBasePath}/`)) {
+    return path;
+  }
+
+  return `${staticBasePath}${path}`;
+}
+
+function applyBasePathToStory(story: RawRouteMediaStory): RawRouteMediaStory {
+  if (!staticBasePath) {
+    return story;
+  }
+
+  return {
+    ...story,
+    clips: story.clips.map((clip) => ({
+      ...clip,
+      videoSrc: withBasePath(clip.videoSrc),
+      posterSrc: withBasePath(clip.posterSrc),
+    })),
+  };
+}
+
 const routePhaseCounts: Record<string, number> = {
   "/counts": 5,
   "/surveys": 5,
@@ -912,9 +958,11 @@ function normalizeStory(cacheKey: string, route: string, story: RawRouteMediaSto
     return cached;
   }
 
+  const storyWithBasePath = applyBasePathToStory(story);
+
   const normalized: RouteMediaStory = {
-    ...story,
-    scenes: story.scenes?.length ? story.scenes : buildScenesFromClips(route, story.clips),
+    ...storyWithBasePath,
+    scenes: storyWithBasePath.scenes?.length ? storyWithBasePath.scenes : buildScenesFromClips(route, storyWithBasePath.clips),
   };
 
   sceneCache.set(cacheKey, normalized);
