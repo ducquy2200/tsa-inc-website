@@ -59,7 +59,7 @@ export function PageRenderer({ page }: PageRendererProps) {
         <CtaStrip
           tag="Get Started"
           title="Ready to collect the data that matters?"
-          subtext="Tell us about your scope and timeline. We will respond with a practical collection plan and a clear quote."
+          subtext="Tell us about your scope and timeline. We will respond with a practical collection plan and a no obligation quote."
         />
       ) : null}
     </>
