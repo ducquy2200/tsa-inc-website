@@ -11,6 +11,12 @@ interface StatsRowProps {
   metrics: MetricItem[];
 }
 
+const metricNumberFormatter = new Intl.NumberFormat("en-CA");
+const metricPaddingByIndex: Record<number, string> = {
+  0: "md:pr-6 lg:pr-8",
+  1: "md:pr-5 lg:pr-6",
+};
+
 function useCounter(target: number, durationMs: number, start: boolean) {
   const [value, setValue] = useState(0);
 
@@ -45,14 +51,14 @@ function useCounter(target: number, durationMs: number, start: boolean) {
 
 function StatCard({ metric, start, index }: { metric: MetricItem; start: boolean; index: number }) {
   const count = useCounter(metric.value, metric.durationMs ?? 1000, start);
-  const valueLabel = metric.displayText ?? String(count);
+  const valueLabel = metric.displayText ?? metricNumberFormatter.format(count);
   const isTextMetric = Boolean(metric.displayText);
 
   return (
     <div className="text-center">
       <p
         className={cn(
-          "font-heading font-extrabold tracking-tight text-ink",
+          "font-metric font-extrabold tracking-tight text-ink",
           isTextMetric
             ? "text-[1.95rem] leading-tight text-ink/70 sm:text-[2.1rem]"
             : "text-[2.85rem] leading-none sm:text-[3rem]",
@@ -62,7 +68,7 @@ function StatCard({ metric, start, index }: { metric: MetricItem; start: boolean
         <span>{valueLabel}</span>
         {!metric.displayText && metric.suffix ? <span className="text-clay">{metric.suffix}</span> : null}
       </p>
-      <p className="mt-1.5 font-ui text-[11.5px] font-semibold uppercase tracking-[0.13em] text-ink/60">{metric.label}</p>
+      <p className="mt-1.5 font-metric text-[11.5px] font-semibold uppercase tracking-[0.13em] text-ink/60">{metric.label}</p>
     </div>
   );
 }
@@ -82,7 +88,7 @@ export function StatsRow({ metrics }: StatsRowProps) {
       <div className="mx-auto flex w-full max-w-[1000px] flex-wrap items-center justify-around gap-6">
         {normalizedMetrics.map((metric, index) => (
           <div key={`${metric.label}-${index}`} className="flex items-center gap-6 md:gap-7">
-            <div className="min-w-[150px] text-center">
+            <div className={cn("min-w-[150px] text-center", metricPaddingByIndex[index])}>
               <StatCard index={index} metric={metric} start={reduceMotion ? true : inView} />
             </div>
             {index < normalizedMetrics.length - 1 ? <div className="hidden h-[58px] w-px bg-line md:block" /> : null}

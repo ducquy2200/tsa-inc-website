@@ -3,15 +3,21 @@ import { Lora, Syne } from "next/font/google";
 
 import "./globals.css";
 
-const syne = Syne({
+const loraHeading = Lora({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
 });
 
-const lora = Lora({
+const loraBody = Lora({
   subsets: ["latin"],
   variable: "--font-body",
+  display: "swap",
+});
+
+const syneMetric = Syne({
+  subsets: ["latin"],
+  variable: "--font-metric",
   display: "swap",
 });
 
@@ -32,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${syne.variable} ${lora.variable} h-full scroll-smooth`}>
+    <html lang="en" className={`${loraHeading.variable} ${loraBody.variable} ${syneMetric.variable} h-full scroll-smooth`}>
       <body className="min-h-full bg-paper font-body text-ink antialiased">{children}</body>
     </html>
   );

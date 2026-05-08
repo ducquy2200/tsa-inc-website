@@ -14,7 +14,7 @@ test("home page interactions and motion baseline", async ({ page }) => {
   const stats = page.getByTestId("stats-row");
   await stats.scrollIntoViewIfNeeded();
   const firstMetric = page.getByTestId("metric-value-0");
-  await expect(firstMetric).toContainText("20+");
+  await expect(firstMetric).toContainText("25+");
 
   await page.getByTestId("service-tab-surveys").click();
   await expect(page.getByTestId("service-tab-panel")).toContainText("License Plate Survey");
@@ -22,7 +22,7 @@ test("home page interactions and motion baseline", async ({ page }) => {
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   await page.evaluate(() => window.scrollTo(0, 0));
   await stats.scrollIntoViewIfNeeded();
-  await expect(firstMetric).toContainText("20+");
+  await expect(firstMetric).toContainText("25+");
 });
 
 test("mobile menu and contact form validation", async ({ browser }) => {
