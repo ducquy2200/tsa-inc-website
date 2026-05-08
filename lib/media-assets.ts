@@ -345,59 +345,93 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
 
 const routeMediaStories: Record<string, RawRouteMediaStory> = {
   "/": {
-    title: "Traffic context, explored through motion",
+    title: "How Better Transportation Decisions Get Made",
     intro:
-      "A fast visual pass through system-scale flow, lane-level behavior, and field conditions that shape reliable data programs.",
+      "Reliable transportation planning is built through a practical sequence: clarify the objective, read corridor behavior, measure operations in the field, test variability, and deliver evidence that can be acted on.",
     clips: [
       {
         id: "route-506",
-        title: "System-wide movement",
+        title: "Define the decision scope",
         description:
-          "Aerial movement patterns reveal corridor continuity, bottlenecks, and macro-level flow relationships.",
+          "Before field collection starts, align what decision must be made, which locations and periods are in scope, and what confidence level the project requires.",
         videoSrc: "/media/videos/route-506.mp4",
         posterSrc: "/media/posters/route-506.jpg",
       },
       {
-        id: "highway-pov",
-        title: "Driver-level operating context",
+        id: "mixkit-2032",
+        title: "Read corridor conditions",
         description:
-          "Ground-level routes expose lane behavior, merge friction, and corridor consistency that affect travel-time reliability.",
+          "Review geometry, access points, and control context to identify where flow pressure forms and where short disruptions can propagate through the network.",
+        videoSrc: "/media/videos/mixkit-2032.mp4",
+        posterSrc: "/media/posters/mixkit-2032.jpg",
+      },
+      {
+        id: "highway-pov",
+        title: "Observe live operations",
+        description:
+          "Capture turning patterns, lane utilization, merge behavior, and queue dynamics during representative periods so analysis reflects real operating conditions.",
         videoSrc: "/media/videos/highway-pov.mp4",
         posterSrc: "/media/posters/highway-pov.jpg",
       },
       {
         id: "highway-fog",
-        title: "Field conditions and temporal change",
+        title: "Validate variability",
         description:
-          "Weather and visibility shifts change operating characteristics. TSA programs account for these collection realities during planning.",
+          "Test how outcomes shift across peak windows, off-peak periods, weather, and day-to-day fluctuation to separate persistent issues from one-off effects.",
         videoSrc: "/media/videos/highway-fog.mp4",
         posterSrc: "/media/posters/highway-fog.jpg",
+      },
+      {
+        id: "route-56",
+        title: "Deliver actionable recommendations",
+        description:
+          "Translate evidence into concise findings, option tradeoffs, and implementation-ready guidance that teams can use for planning, design, and approvals.",
+        videoSrc: "/media/videos/route-56.mp4",
+        posterSrc: "/media/posters/route-56.jpg",
       },
     ],
     scenes: [
       {
-        id: "home-system",
-        title: "System-wide movement",
-        description: "Macro flow context across the broader network.",
+        id: "home-step-01",
+        title: "Define the question",
+        description: "Clarify project boundaries, target locations, and the decision criteria that will define success.",
         clipIndex: 0,
         start: 0.08,
         end: 0.78,
         ornamentState: "origin",
       },
       {
-        id: "home-driver",
-        title: "Driver-level operating context",
-        description: "Ground perspective for lane behavior and merge friction.",
+        id: "home-step-02",
+        title: "Read the corridor",
+        description: "Interpret movement context to pinpoint conflict zones, bottlenecks, and directional pressure points.",
         clipIndex: 1,
         start: 0.1,
         end: 0.82,
         ornamentState: "merge",
       },
       {
-        id: "home-conditions",
-        title: "Field condition variability",
-        description: "Visibility and weather shifts affecting data collection windows.",
+        id: "home-step-03",
+        title: "Observe operations",
+        description: "Document field behavior lane by lane so queue formation and merging friction are evidence-based.",
         clipIndex: 2,
+        start: 0.08,
+        end: 0.76,
+        ornamentState: "merge",
+      },
+      {
+        id: "home-step-04",
+        title: "Validate variability",
+        description: "Compare results across changing conditions to distinguish stable trends from temporary noise.",
+        clipIndex: 3,
+        start: 0.08,
+        end: 0.76,
+        ornamentState: "merge",
+      },
+      {
+        id: "home-step-05",
+        title: "Deliver recommendations",
+        description: "Synthesize the findings into practical next actions, with assumptions and tradeoffs made explicit.",
+        clipIndex: 4,
         start: 0.08,
         end: 0.76,
         ornamentState: "distribute",

@@ -1,7 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring } from "framer-motion";
-import { useRef, useState } from "react";
+import { AnimatePresence, motion, useMotionValue, useMotionValueEvent, useScroll, useSpring } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { motionDuration, motionEasing, scrollSpring } from "@/lib/motion";
 import { useMotionPreference } from "@/components/ui/use-motion-preference";
@@ -14,6 +14,164 @@ interface ScrollMediaStoryProps {
   clips: ScrollMediaClip[];
 }
 
+interface RoadPoint {
+  x: number;
+  y: number;
+}
+
+interface RoadGeometry {
+  d: string;
+  width: number;
+  height: number;
+  dotThresholds: number[];
+}
+
+const ROAD_SIDE_PADDING = 6;
+const ROAD_WIGGLE_MULTIPLIER = 10;
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function round(value: number) {
+  return Math.round(value * 100) / 100;
+}
+
+function seededNoise(seed: number) {
+  const hashed = Math.sin(seed * 12.9898 + 78.233) * 43758.5453123;
+  return hashed - Math.floor(hashed);
+}
+
+function distance(a: RoadPoint, b: RoadPoint) {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+function cubicPoint(t: number, p0: RoadPoint, p1: RoadPoint, p2: RoadPoint, p3: RoadPoint): RoadPoint {
+  const oneMinusT = 1 - t;
+  const oneMinusTSquared = oneMinusT * oneMinusT;
+  const tSquared = t * t;
+
+  return {
+    x:
+      oneMinusT * oneMinusTSquared * p0.x +
+      3 * oneMinusTSquared * t * p1.x +
+      3 * oneMinusT * tSquared * p2.x +
+      tSquared * t * p3.x,
+    y:
+      oneMinusT * oneMinusTSquared * p0.y +
+      3 * oneMinusTSquared * t * p1.y +
+      3 * oneMinusT * tSquared * p2.y +
+      tSquared * t * p3.y,
+  };
+}
+
+function cubicLength(p0: RoadPoint, p1: RoadPoint, p2: RoadPoint, p3: RoadPoint) {
+  const samples = 18;
+  let total = 0;
+  let previous = p0;
+
+  for (let sample = 1; sample <= samples; sample += 1) {
+    const point = cubicPoint(sample / samples, p0, p1, p2, p3);
+    total += distance(previous, point);
+    previous = point;
+  }
+
+  return total;
+}
+
+function buildWiggleRoad(points: RoadPoint[], width: number): { d: string; dotThresholds: number[] } {
+  if (points.length === 0) {
+    return { d: "", dotThresholds: [] };
+  }
+
+  if (points.length === 1) {
+    return { d: `M ${round(points[0].x)} ${round(points[0].y)}`, dotThresholds: [0] };
+  }
+
+  let d = `M ${round(points[0].x)} ${round(points[0].y)}`;
+  const minX = ROAD_SIDE_PADDING;
+  const maxX = width - ROAD_SIDE_PADDING;
+  const segmentLengths: number[] = [];
+
+  for (let index = 1; index < points.length; index += 1) {
+    const previous = points[index - 1];
+    const current = points[index];
+    const span = Math.max(18, current.y - previous.y);
+    const seedBase =
+      index * 97.131 +
+      previous.x * 0.173 +
+      previous.y * 0.219 +
+      current.x * 0.127 +
+      current.y * 0.113 +
+      width * 0.071;
+    const noiseA = seededNoise(seedBase);
+    const noiseB = seededNoise(seedBase + 11.17);
+    const noiseC = seededNoise(seedBase + 29.53);
+    const noiseD = seededNoise(seedBase + 47.91);
+
+    const dirA = noiseB > 0.5 ? 1 : -1;
+    const dirB = noiseD > 0.5 ? 1 : -1;
+    const amplitudeA = (2.2 + noiseA * 5.8 + (index % 3) * 0.9) * ROAD_WIGGLE_MULTIPLIER;
+    const amplitudeB = (2.0 + noiseC * 6.1 + ((index + 1) % 4) * 0.75) * ROAD_WIGGLE_MULTIPLIER;
+    const control1x = clamp(previous.x + dirA * amplitudeA, minX, maxX);
+    const control2x = clamp(current.x + dirB * amplitudeB, minX, maxX);
+    const controlBandMin = previous.y - span * 0.15;
+    const controlBandMax = current.y + span * 0.15;
+    const control1y = clamp(previous.y + span * (0.14 + noiseB * 0.56), controlBandMin, controlBandMax);
+    const control2y = clamp(current.y - span * (0.12 + noiseD * 0.58), controlBandMin, controlBandMax);
+
+    d += ` C ${round(control1x)} ${round(control1y)}, ${round(control2x)} ${round(control2y)}, ${round(current.x)} ${round(current.y)}`;
+    segmentLengths.push(
+      cubicLength(
+        previous,
+        { x: control1x, y: control1y },
+        { x: control2x, y: control2y },
+        current,
+      ),
+    );
+  }
+
+  const totalLength = segmentLengths.reduce((sum, value) => sum + value, 0);
+  const dotThresholds: number[] = [0];
+  let traversed = 0;
+
+  for (let index = 0; index < segmentLengths.length; index += 1) {
+    traversed += segmentLengths[index];
+    dotThresholds.push(totalLength > 0 ? traversed / totalLength : 1);
+  }
+
+  dotThresholds[dotThresholds.length - 1] = 1;
+
+  return { d, dotThresholds };
+}
+
+function getRoadProgressFromStep(
+  activeStep: number,
+  stepProgress: number,
+  clipCount: number,
+  dotThresholds: number[],
+) {
+  if (clipCount <= 1) {
+    return clipCount === 1 ? 1 : 0;
+  }
+
+  const boundedActiveStep = clamp(activeStep, 0, clipCount - 1);
+  const boundedStepProgress = clamp(stepProgress, 0, 1);
+  const fallbackCurrent = boundedActiveStep / (clipCount - 1);
+  const fallbackNext = Math.min(1, (boundedActiveStep + 1) / (clipCount - 1));
+
+  const current =
+    dotThresholds.length === clipCount ? dotThresholds[boundedActiveStep] ?? fallbackCurrent : fallbackCurrent;
+  const next =
+    dotThresholds.length === clipCount
+      ? dotThresholds[Math.min(clipCount - 1, boundedActiveStep + 1)] ?? fallbackNext
+      : fallbackNext;
+
+  return current + (next - current) * boundedStepProgress;
+}
+
 export function ScrollMediaStory({ title, intro, clips }: ScrollMediaStoryProps) {
   const noClips = clips.length === 0;
   const { reduceMotion } = useMotionPreference();
@@ -22,7 +180,11 @@ export function ScrollMediaStory({ title, intro, clips }: ScrollMediaStoryProps)
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
   const durationMap = useRef<number[]>([]);
   const activeIndexRef = useRef(0);
+  const stepListRef = useRef<HTMLDivElement>(null);
+  const dotRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [roadGeometry, setRoadGeometry] = useState<RoadGeometry | null>(null);
+  const roadPathProgress = useMotionValue(0);
   const scrollSpan = `${Math.max(165, 122 + clips.length * 54)}svh`;
 
   const { scrollYProgress } = useScroll({
@@ -34,6 +196,89 @@ export function ScrollMediaStory({ title, intro, clips }: ScrollMediaStoryProps)
     scrollYProgress,
     reduceMotion ? scrollSpring.homeReduced : scrollSpring.homeDefault,
   );
+  const roadStrokeWidth = 2 + (Math.max(0, activeIndex) / Math.max(1, clips.length - 1)) * 2.8;
+
+  const syncRoadGeometry = useCallback(() => {
+    if (!hasMultipleClips) {
+      setRoadGeometry(null);
+      return;
+    }
+
+    const stepListElement = stepListRef.current;
+    if (!stepListElement) {
+      return;
+    }
+
+    const stepListRect = stepListElement.getBoundingClientRect();
+    if (stepListRect.height <= 0 || stepListRect.width <= 0) {
+      return;
+    }
+
+    const points = dotRefs.current
+      .slice(0, clips.length)
+      .map((dot) => {
+        if (!dot) {
+          return null;
+        }
+
+        const dotRect = dot.getBoundingClientRect();
+        const x = dotRect.left + dotRect.width / 2 - stepListRect.left;
+        const y = dotRect.top + dotRect.height / 2 - stepListRect.top;
+        return {
+          x: clamp(x, ROAD_SIDE_PADDING, stepListRect.width - ROAD_SIDE_PADDING),
+          y: clamp(y, 0, stepListRect.height),
+        };
+      })
+      .filter((point): point is RoadPoint => point !== null);
+
+    if (points.length === 0) {
+      setRoadGeometry(null);
+      return;
+    }
+
+    const { d, dotThresholds } = buildWiggleRoad(points, stepListRect.width);
+    setRoadGeometry({
+      d,
+      width: Math.max(1, Math.round(stepListRect.width)),
+      height: Math.max(1, Math.round(stepListRect.height)),
+      dotThresholds,
+    });
+  }, [clips.length, hasMultipleClips]);
+
+  useEffect(() => {
+    if (!hasMultipleClips) {
+      return;
+    }
+
+    let frameId = window.requestAnimationFrame(syncRoadGeometry);
+    const observer = new ResizeObserver(() => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(syncRoadGeometry);
+    });
+
+    if (stepListRef.current) {
+      observer.observe(stepListRef.current);
+    }
+
+    dotRefs.current.slice(0, clips.length).forEach((dot) => {
+      if (dot) {
+        observer.observe(dot);
+      }
+    });
+
+    const handleWindowResize = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(syncRoadGeometry);
+    };
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      observer.disconnect();
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, [clips.length, hasMultipleClips, syncRoadGeometry]);
 
   useMotionValueEvent(smoothedProgress, "change", (latest) => {
     if (noClips) {
@@ -44,6 +289,13 @@ export function ScrollMediaStory({ title, intro, clips }: ScrollMediaStoryProps)
     const raw = bounded * clips.length;
     const nextIndex = Math.min(clips.length - 1, Math.floor(raw));
     const segmentProgress = raw - nextIndex;
+    const mappedRoadProgress = getRoadProgressFromStep(
+      nextIndex,
+      segmentProgress,
+      clips.length,
+      roadGeometry?.dotThresholds ?? [],
+    );
+    roadPathProgress.set(mappedRoadProgress);
 
     if (nextIndex !== activeIndexRef.current) {
       activeIndexRef.current = nextIndex;
@@ -67,6 +319,21 @@ export function ScrollMediaStory({ title, intro, clips }: ScrollMediaStoryProps)
       activeVideo.currentTime = targetTime;
     }
   });
+
+  useEffect(() => {
+    const currentProgress = smoothedProgress.get();
+    const bounded = Math.min(0.9999, Math.max(0, currentProgress));
+    const raw = bounded * clips.length;
+    const seededStep = Math.min(clips.length - 1, Math.floor(raw));
+    const seededStepProgress = raw - seededStep;
+    const seededRoadProgress = getRoadProgressFromStep(
+      seededStep,
+      seededStepProgress,
+      clips.length,
+      roadGeometry?.dotThresholds ?? [],
+    );
+    roadPathProgress.set(seededRoadProgress);
+  }, [clips.length, roadGeometry?.dotThresholds, roadPathProgress, smoothedProgress]);
 
   if (noClips) {
     return null;
@@ -151,26 +418,70 @@ export function ScrollMediaStory({ title, intro, clips }: ScrollMediaStoryProps)
                 </div>
 
                 {hasMultipleClips ? (
-                  <div className="grid gap-2 rounded-2xl border border-paper/20 bg-ink/35 p-3 sm:p-4">
-                    {clips.map((clip, index) => (
-                      <div
-                        key={clip.id}
-                        className={cn(
-                          "flex items-center justify-between rounded-xl px-3 py-2 transition",
-                          index === activeIndex ? "bg-paper/14" : "bg-transparent",
-                        )}
-                      >
-                        <span className={cn("text-sm", index === activeIndex ? "text-paper" : "text-paper/65")}>
-                          {clip.title}
-                        </span>
-                        <span
+                  <div className="relative rounded-2xl border border-paper/20 bg-ink/35 p-3 sm:p-4">
+                    <div className="relative z-10 grid gap-2 pr-10" ref={stepListRef}>
+                      {roadGeometry ? (
+                        <svg
+                          aria-hidden="true"
+                          className="pointer-events-none absolute inset-0 z-0"
+                          viewBox={`0 0 ${roadGeometry.width} ${roadGeometry.height}`}
+                        >
+                          <path
+                            d={roadGeometry.d}
+                            fill="none"
+                            stroke="rgba(255,255,255,0.22)"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.35}
+                          />
+                          <motion.path
+                            d={roadGeometry.d}
+                            fill="none"
+                            initial={{ pathLength: 0, strokeWidth: 1.65 }}
+                            animate={{ strokeWidth: roadStrokeWidth }}
+                            stroke="rgba(196,105,58,0.96)"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            style={{ pathLength: roadPathProgress }}
+                            transition={{ duration: reduceMotion ? 0 : motionDuration.fast, ease: motionEasing.standard }}
+                          />
+                        </svg>
+                      ) : null}
+
+                      {clips.map((clip, index) => {
+                        const isPassed = index <= activeIndex;
+                        const isLatestPassed = index === activeIndex;
+
+                        return (
+                        <div
+                          key={clip.id}
                           className={cn(
-                            "h-2.5 w-2.5 rounded-full transition",
-                            index === activeIndex ? "bg-clay shadow-[0_0_0_5px_rgba(196,105,58,0.22)]" : "bg-paper/35",
+                            "relative z-10 grid grid-cols-[1fr_auto] items-center gap-3 rounded-xl px-3 py-2 transition",
+                            index === activeIndex ? "bg-paper/14" : "bg-transparent",
                           )}
-                        />
-                      </div>
-                    ))}
+                        >
+                          <span className={cn("text-sm", isPassed ? "text-paper" : "text-paper/65")}>
+                            {clip.title}
+                          </span>
+                          <span className="flex w-5 justify-center">
+                            <span
+                              className={cn(
+                                "h-2.5 w-2.5 rounded-full transition",
+                                isPassed
+                                  ? isLatestPassed
+                                    ? "bg-clay shadow-[0_0_0_5px_rgba(196,105,58,0.22)]"
+                                    : "bg-clay/80"
+                                  : "bg-paper/35",
+                              )}
+                              ref={(node) => {
+                                dotRefs.current[index] = node;
+                              }}
+                            />
+                          </span>
+                        </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 ) : null}
               </div>
