@@ -353,7 +353,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
         id: "route-506",
         title: "Define the decision scope",
         description:
-          "Before field collection starts, align what decision must be made, which locations and periods are in scope, and what confidence level the project requires.",
+          "You define the decision to be made, and our team aligns scope, locations, timing windows, and confidence requirements before collection begins.",
         videoSrc: "/media/videos/route-506.mp4",
         posterSrc: "/media/posters/route-506.jpg",
       },
@@ -361,7 +361,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
         id: "mixkit-2032",
         title: "Read corridor conditions",
         description:
-          "Review geometry, access points, and control context to identify where flow pressure forms and where short disruptions can propagate through the network.",
+          "Geometry, access, and control context are reviewed so you can see where pressure forms and where short disruptions propagate across the corridor.",
         videoSrc: "/media/videos/mixkit-2032.mp4",
         posterSrc: "/media/posters/mixkit-2032.jpg",
       },
@@ -369,7 +369,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
         id: "highway-pov",
         title: "Observe live operations",
         description:
-          "Capture turning patterns, lane utilization, merge behavior, and queue dynamics during representative periods so analysis reflects real operating conditions.",
+          "Turning patterns, lane use, merge behavior, and queue dynamics are captured during representative periods so your analysis reflects real operations.",
         videoSrc: "/media/videos/highway-pov.mp4",
         posterSrc: "/media/posters/highway-pov.jpg",
       },
@@ -377,7 +377,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
         id: "highway-fog",
         title: "Validate variability",
         description:
-          "Test how outcomes shift across peak windows, off-peak periods, weather, and day-to-day fluctuation to separate persistent issues from one-off effects.",
+          "Peak, off-peak, weather, and day-to-day variation are tested so you can separate persistent issues from one-off effects.",
         videoSrc: "/media/videos/highway-fog.mp4",
         posterSrc: "/media/posters/highway-fog.jpg",
       },
@@ -385,7 +385,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
         id: "route-56",
         title: "Deliver actionable recommendations",
         description:
-          "Translate evidence into concise findings, option tradeoffs, and implementation-ready guidance that teams can use for planning, design, and approvals.",
+          "Evidence is translated into concise findings and tradeoffs, and you receive implementation-ready guidance for planning, design, and approvals.",
         videoSrc: "/media/videos/route-56.mp4",
         posterSrc: "/media/posters/route-56.jpg",
       },
@@ -394,7 +394,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       {
         id: "home-step-01",
         title: "Define the question",
-        description: "Clarify project boundaries, target locations, and the decision criteria that will define success.",
+        description: "You define project boundaries and success criteria, and our team confirms the required scope and locations.",
         clipIndex: 0,
         start: 0.08,
         end: 0.78,
@@ -403,7 +403,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       {
         id: "home-step-02",
         title: "Read the corridor",
-        description: "Interpret movement context to pinpoint conflict zones, bottlenecks, and directional pressure points.",
+        description: "Movement context is interpreted so you can pinpoint conflict zones, bottlenecks, and directional pressure points.",
         clipIndex: 1,
         start: 0.1,
         end: 0.82,
@@ -412,7 +412,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       {
         id: "home-step-03",
         title: "Observe operations",
-        description: "Document field behavior lane by lane so queue formation and merging friction are evidence-based.",
+        description: "Lane-by-lane field behavior is documented so you can base queue and merge decisions on measured evidence.",
         clipIndex: 2,
         start: 0.08,
         end: 0.76,
@@ -421,7 +421,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       {
         id: "home-step-04",
         title: "Validate variability",
-        description: "Compare results across changing conditions to distinguish stable trends from temporary noise.",
+        description: "Results are compared across changing conditions so you can distinguish stable trends from temporary noise.",
         clipIndex: 3,
         start: 0.08,
         end: 0.76,
@@ -430,7 +430,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       {
         id: "home-step-05",
         title: "Deliver recommendations",
-        description: "Synthesize the findings into practical next actions, with assumptions and tradeoffs made explicit.",
+        description: "Findings are synthesized and you receive practical next actions with assumptions and tradeoffs made explicit.",
         clipIndex: 4,
         start: 0.08,
         end: 0.76,
