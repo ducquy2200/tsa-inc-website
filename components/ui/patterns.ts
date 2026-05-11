@@ -14,7 +14,7 @@ export const surfacePanel = cva("rounded-2xl border bg-paper/85", {
 });
 
 export const interactiveSurfaceCard = cva(
-  "group rounded-2xl border border-line bg-paper/85 transition",
+  "group rounded-2xl border border-line bg-paper/85 transition-[transform,box-shadow,border-color,color,background-color] duration-200 ease-out transform-gpu motion-reduce:transform-none motion-reduce:transition-none",
   {
     variants: {
       density: {
@@ -34,7 +34,7 @@ export const interactiveSurfaceCard = cva(
 );
 
 export const interactiveLinkRow = cva(
-  "group flex items-start justify-between gap-4 transition",
+  "group flex items-start justify-between gap-4 transition-[transform,background-color,color] duration-200 ease-out transform-gpu motion-reduce:transform-none motion-reduce:transition-none",
   {
     variants: {
       spacing: {
@@ -42,7 +42,7 @@ export const interactiveLinkRow = cva(
         lg: "py-6",
       },
       affordance: {
-        subtle: "hover:pl-1",
+        subtle: "hover:translate-x-0.5",
       },
     },
     defaultVariants: {

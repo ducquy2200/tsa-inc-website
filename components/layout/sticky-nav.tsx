@@ -53,7 +53,7 @@ export function StickyNav({ items, currentRoute }: StickyNavProps) {
             <Link
               key={item.href}
               className={cn(
-                "relative font-ui text-sm font-medium text-ink/65 transition-[color,transform] duration-200 ease-out hover:-translate-y-0.5 hover:text-ink active:translate-y-0 active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-ink/70 after:transition-transform after:duration-200 after:ease-out hover:after:scale-x-100",
+                "relative font-ui text-sm font-medium text-ink/65 transition-colors duration-200 ease-out hover:text-ink after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-ink/70 after:transition-transform after:duration-200 after:ease-out hover:after:scale-x-100",
                 routeIsActive(currentRoute, item.href) && "text-ink after:scale-x-100",
               )}
               href={item.href}
@@ -108,7 +108,7 @@ export function StickyNav({ items, currentRoute }: StickyNavProps) {
             <Link
               key={item.href}
               className={cn(
-                "rounded-lg px-3 py-2 font-ui text-sm font-medium text-ink/75 transition-[transform,background-color,color] duration-200 ease-out hover:-translate-y-0.5 hover:bg-sand/75 hover:text-ink active:translate-y-0 active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none",
+                "rounded-lg px-3 py-2 font-ui text-sm font-medium text-ink/75 transition-colors duration-200 ease-out hover:bg-sand/75 hover:text-ink",
                 routeIsActive(currentRoute, item.href) && "bg-sand text-ink",
               )}
               href={item.href}

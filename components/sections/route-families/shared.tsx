@@ -73,12 +73,29 @@ export function RouteHeader({
               </p>
             </Reveal>
             <Reveal delay={0.12}>
-              <div className={cn("mt-8 flex flex-wrap gap-3", centered ? "justify-center" : "justify-start")}>
-                <Button href={hero.primaryCta.href} external={hero.primaryCta.external} size="lg" variant="primary">
+              <div
+                className={cn(
+                  "mt-8 flex w-full max-w-md flex-col gap-3 sm:max-w-[30rem] sm:flex-row sm:items-center sm:gap-3.5",
+                  centered ? "mx-auto justify-center" : "justify-start",
+                )}
+              >
+                <Button
+                  className="w-full sm:min-w-[12.75rem]"
+                  href={hero.primaryCta.href}
+                  external={hero.primaryCta.external}
+                  size="lg"
+                  variant="primary"
+                >
                   {hero.primaryCta.label}
                 </Button>
                 {hero.secondaryCta ? (
-                  <Button href={hero.secondaryCta.href} external={hero.secondaryCta.external} size="lg" variant="ghost">
+                  <Button
+                    className="w-full sm:min-w-[11.5rem]"
+                    href={hero.secondaryCta.href}
+                    external={hero.secondaryCta.external}
+                    size="lg"
+                    variant="ghost"
+                  >
                     {hero.secondaryCta.label}
                   </Button>
                 ) : null}

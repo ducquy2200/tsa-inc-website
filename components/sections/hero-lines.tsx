@@ -128,16 +128,28 @@ export function HeroLines({ hero }: HeroLinesProps) {
         </motion.p>
 
         <motion.div
-          className="mt-10 flex flex-wrap items-center justify-center gap-3"
+          className="mx-auto mt-10 flex w-full max-w-md flex-col items-center gap-3 sm:max-w-[30rem] sm:flex-row sm:justify-center sm:gap-3.5"
           initial={reduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: reduceMotion ? 0 : motionDelay.heroActions, duration: reduceMotion ? 0 : motionDuration.heroActions }}
         >
-          <Button href={hero.primaryCta.href} external={hero.primaryCta.external} variant="primary" size="lg">
+          <Button
+            className="w-full sm:min-w-[13rem]"
+            href={hero.primaryCta.href}
+            external={hero.primaryCta.external}
+            variant="primary"
+            size="lg"
+          >
             {hero.primaryCta.label}
           </Button>
           {hero.secondaryCta ? (
-            <Button href={hero.secondaryCta.href} external={hero.secondaryCta.external} variant="ghost" size="lg">
+            <Button
+              className="w-full sm:min-w-[11.5rem]"
+              href={hero.secondaryCta.href}
+              external={hero.secondaryCta.external}
+              variant="ghost"
+              size="lg"
+            >
               {hero.secondaryCta.label}
             </Button>
           ) : null}
