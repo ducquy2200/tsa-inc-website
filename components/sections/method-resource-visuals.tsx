@@ -4,6 +4,21 @@ import { surfacePanel } from "@/components/ui/patterns";
 import type { ToneVariant } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
+const envBasePath = process.env.NEXT_PUBLIC_BASE_PATH?.trim();
+const basePath = envBasePath
+  ? envBasePath.startsWith("/")
+    ? envBasePath.replace(/\/$/, "")
+    : `/${envBasePath.replace(/\/$/, "")}`
+  : "";
+
+function withBasePath(path: string) {
+  if (!path.startsWith("/")) {
+    return path;
+  }
+
+  return `${basePath}${path}`;
+}
+
 interface VisualItem {
   src: string;
   alt: string;
@@ -201,7 +216,7 @@ function VisualCard({
           fill
           loading={item.loading}
           sizes="(min-width: 1024px) 33vw, 100vw"
-          src={item.src}
+          src={withBasePath(item.src)}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent" />
         <div className="absolute bottom-3 left-3 rounded-full border border-paper/35 bg-ink/35 px-3 py-1 font-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-paper/88">
