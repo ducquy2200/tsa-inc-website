@@ -105,19 +105,6 @@ export function CategoryCountsLayout({ page, layout, tone }: RouteFamilyLayoutsP
       />
 
       <SimpleFamilySpotlight group={group} route="/services/counts" tone={tone} />
-      <section className="bg-sand px-5 py-20 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-6xl">
-          <Reveal>
-            <Heading as="h2" className="text-[clamp(2rem,3.6vw,3rem)] font-extrabold leading-[1.06] tracking-[-0.03em]">
-              Operational grid for count programs
-            </Heading>
-          </Reveal>
-          <Reveal delay={0.04}>
-            <p className="mt-4 max-w-3xl text-base leading-8 text-ink/75">{group.description}</p>
-          </Reveal>
-          <ServiceGrid group={group} tone={tone} variant="counts" />
-        </div>
-      </section>
 
       {page.statement ? <StatementBlock statement={page.statement} /> : null}
       {page.body ? <MarkdownSection source={page.body} /> : null}
@@ -141,23 +128,6 @@ export function CategorySurveysLayout({ page, layout, tone }: RouteFamilyLayouts
   return (
     <>
       <RouteHeader align="center" hero={hero} layout={layout} tone={tone} />
-
-      <section className="px-5 py-16 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-6xl">
-          <Reveal>
-            <div className={cn(surfacePanel({ padding: "lg" }), "sm:px-8", tone.accentBorder, tone.accentSoftBg)}>
-              <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.12em]", tone.accentText)}>
-                Decision framing
-              </p>
-              <p className="mt-2 text-sm leading-7 text-ink/78">
-                Choose the survey path that resolves your planning question fastest. Each option below is structured for a
-                different decision context.
-              </p>
-            </div>
-          </Reveal>
-          <ServiceGrid group={group} tone={tone} variant="surveys" />
-        </div>
-      </section>
 
       <SimpleFamilySpotlight group={group} route="/services/surveys" tone={tone} />
       {page.statement ? <StatementBlock statement={page.statement} /> : null}
@@ -188,20 +158,6 @@ export function CategoryStudiesLayout({ page, layout, tone }: RouteFamilyLayouts
         sideContent={<EvidenceFlowPanel tone={tone} />}
       />
 
-      <section className="px-5 py-18 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-6xl">
-          <Reveal>
-            <Heading as="h2" className="text-[clamp(2rem,3.6vw,3rem)] font-extrabold leading-[1.06] tracking-[-0.03em]">
-              Diagnostic study tracks
-            </Heading>
-          </Reveal>
-          <Reveal delay={0.04}>
-            <p className="mt-4 max-w-3xl text-base leading-8 text-ink/75">{group.description}</p>
-          </Reveal>
-          <ServiceGrid group={group} tone={tone} variant="studies" />
-        </div>
-      </section>
-
       <SimpleFamilySpotlight group={group} route="/services/studies" tone={tone} />
       {page.statement ? <StatementBlock statement={page.statement} /> : null}
       {page.body ? <MarkdownSection source={page.body} /> : null}
@@ -227,8 +183,8 @@ function OperationalSnapshot({
       <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.12em]", tone.accentText)}>Operational Snapshot</p>
       <div className="mt-4 space-y-3">
         {group.items.map((item) => (
-          <p key={item.href} className="flex items-center gap-3 text-sm leading-6 text-ink/75">
-            <span className={cn("inline-block h-2 w-2 shrink-0 rounded-full", tone.accentDot)} />
+          <p key={item.href} className="flex items-start gap-3 text-sm leading-6 text-ink/75">
+            <span className={cn("mt-[0.48rem] inline-block h-2 w-2 shrink-0 rounded-full", tone.accentDot)} />
             <span>{item.title}</span>
           </p>
         ))}

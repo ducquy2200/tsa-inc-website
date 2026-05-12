@@ -29,6 +29,10 @@ const toneDefaults: Record<LayoutFamily, LayoutTone> = {
   detail_counts: "clay",
   detail_surveys: "amber",
   detail_studies: "teal",
+  methodology_hub: "slate",
+  methodology_detail: "slate",
+  resources_hub: "indigo",
+  resources_detail: "indigo",
   custom_program: "slate",
   contact: "clay",
 };
@@ -41,6 +45,10 @@ const mediaModeDefaults: Record<LayoutFamily, MediaMode> = {
   detail_counts: "hybrid",
   detail_surveys: "hybrid",
   detail_studies: "hybrid",
+  methodology_hub: "abstract",
+  methodology_detail: "abstract",
+  resources_hub: "abstract",
+  resources_detail: "abstract",
   custom_program: "hybrid",
   contact: "hybrid",
 };
@@ -94,6 +102,34 @@ const familyMotionDefaults: Record<LayoutFamily, RouteMotionConfig> = {
     assetPlacement: "center",
     panelHeight: "medium",
     scrubStrength: 0.95,
+  },
+  methodology_hub: {
+    interactionStyle: "chapter",
+    ornamentPreset: "services_hub",
+    assetPlacement: "right",
+    panelHeight: "medium",
+    scrubStrength: 0.82,
+  },
+  methodology_detail: {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_counts",
+    assetPlacement: "left",
+    panelHeight: "medium",
+    scrubStrength: 0.72,
+  },
+  resources_hub: {
+    interactionStyle: "chapter",
+    ornamentPreset: "surveys_matrix",
+    assetPlacement: "center",
+    panelHeight: "medium",
+    scrubStrength: 0.74,
+  },
+  resources_detail: {
+    interactionStyle: "restrained",
+    ornamentPreset: "detail_surveys",
+    assetPlacement: "right",
+    panelHeight: "short",
+    scrubStrength: 0.64,
   },
   custom_program: {
     interactionStyle: "program",
@@ -161,6 +197,34 @@ const familyExperienceDefaults: Record<LayoutFamily, RouteExperienceConfig> = {
     variantId: "detail-studies-core",
     assetBundleId: "detail-studies-core",
   },
+  methodology_hub: {
+    experienceKind: "surveys_decision_matrix",
+    chapterCount: 4,
+    chapterStyle: "branched",
+    variantId: "methodology-hub",
+    assetBundleId: "methodology-hub",
+  },
+  methodology_detail: {
+    experienceKind: "detail_counts_stackdeck",
+    chapterCount: 4,
+    chapterStyle: "stacked",
+    variantId: "methodology-detail",
+    assetBundleId: "methodology-detail",
+  },
+  resources_hub: {
+    experienceKind: "studies_evidence_observatory",
+    chapterCount: 4,
+    chapterStyle: "timeline",
+    variantId: "resources-hub",
+    assetBundleId: "resources-hub",
+  },
+  resources_detail: {
+    experienceKind: "contact_intake_console",
+    chapterCount: 3,
+    chapterStyle: "timeline",
+    variantId: "resources-detail",
+    assetBundleId: "resources-detail",
+  },
   custom_program: {
     experienceKind: "custom_program_flow_composer",
     chapterCount: 6,
@@ -205,6 +269,22 @@ const familyChapterDefaults: Record<LayoutFamily, RouteChapterConfig> = {
   detail_studies: {
     labels: ["Question", "Observe", "Quantify", "Interpret", "Result"],
     metricHints: ["Need", "Field", "Measure", "Meaning", "Action"],
+  },
+  methodology_hub: {
+    labels: ["Counts", "Surveys", "Studies", "Custom"],
+    metricHints: ["Objective", "Method", "Analysis", "Delivery"],
+  },
+  methodology_detail: {
+    labels: ["Objective", "Tools", "Process", "Outputs"],
+    metricHints: ["Scope", "Capture", "Quality", "Package"],
+  },
+  resources_hub: {
+    labels: ["Guide", "Scope", "Schedule", "Deliverables"],
+    metricHints: ["Selection", "Windows", "Durations", "Formats"],
+  },
+  resources_detail: {
+    labels: ["Purpose", "Compare", "Act"],
+    metricHints: ["Context", "Decision", "Next"],
   },
   custom_program: {
     labels: ["Intake", "Compose", "Sequence", "Activate", "Validate", "Deliver"],
@@ -343,6 +423,139 @@ export const routeMotionConfig: Record<string, RouteMotionConfig> = {
     panelHeight: "medium",
     scrubStrength: 0.94,
   },
+  "/methodology": {
+    interactionStyle: "chapter",
+    ornamentPreset: "services_hub",
+    assetPlacement: "right",
+    panelHeight: "medium",
+    scrubStrength: 0.82,
+  },
+  "/methodology/atr-counts": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_counts",
+    assetPlacement: "left",
+    panelHeight: "medium",
+    scrubStrength: 0.72,
+  },
+  "/methodology/turning-movement-counts": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_counts",
+    assetPlacement: "right",
+    panelHeight: "medium",
+    scrubStrength: 0.74,
+  },
+  "/methodology/pedestrian-counts": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_counts",
+    assetPlacement: "center",
+    panelHeight: "medium",
+    scrubStrength: 0.73,
+  },
+  "/methodology/parking-utilization-survey": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_surveys",
+    assetPlacement: "center",
+    panelHeight: "medium",
+    scrubStrength: 0.71,
+  },
+  "/methodology/license-plate-survey": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_surveys",
+    assetPlacement: "left",
+    panelHeight: "medium",
+    scrubStrength: 0.73,
+  },
+  "/methodology/vehicle-occupancy-surveys": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_surveys",
+    assetPlacement: "right",
+    panelHeight: "medium",
+    scrubStrength: 0.72,
+  },
+  "/methodology/ball-bank-study": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_studies",
+    assetPlacement: "right",
+    panelHeight: "medium",
+    scrubStrength: 0.74,
+  },
+  "/methodology/travel-time-studies": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_studies",
+    assetPlacement: "center",
+    panelHeight: "medium",
+    scrubStrength: 0.72,
+  },
+  "/methodology/gps-travel-runs": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_studies",
+    assetPlacement: "left",
+    panelHeight: "medium",
+    scrubStrength: 0.73,
+  },
+  "/methodology/delay-studies": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_studies",
+    assetPlacement: "left",
+    panelHeight: "medium",
+    scrubStrength: 0.7,
+  },
+  "/methodology/radar-speed-study": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_studies",
+    assetPlacement: "right",
+    panelHeight: "medium",
+    scrubStrength: 0.72,
+  },
+  "/methodology/gap-study": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_studies",
+    assetPlacement: "center",
+    panelHeight: "medium",
+    scrubStrength: 0.69,
+  },
+  "/methodology/cordon-counts": {
+    interactionStyle: "compact",
+    ornamentPreset: "detail_studies",
+    assetPlacement: "left",
+    panelHeight: "medium",
+    scrubStrength: 0.71,
+  },
+  "/methodology/customized-data-collection": {
+    interactionStyle: "program",
+    ornamentPreset: "custom_builder",
+    assetPlacement: "right",
+    panelHeight: "medium",
+    scrubStrength: 0.76,
+  },
+  "/resources": {
+    interactionStyle: "chapter",
+    ornamentPreset: "surveys_matrix",
+    assetPlacement: "center",
+    panelHeight: "medium",
+    scrubStrength: 0.74,
+  },
+  "/resources/service-selection-guide": {
+    interactionStyle: "restrained",
+    ornamentPreset: "detail_surveys",
+    assetPlacement: "left",
+    panelHeight: "short",
+    scrubStrength: 0.64,
+  },
+  "/resources/scheduling-and-duration-guide": {
+    interactionStyle: "restrained",
+    ornamentPreset: "detail_counts",
+    assetPlacement: "right",
+    panelHeight: "short",
+    scrubStrength: 0.62,
+  },
+  "/resources/deliverables-and-report-formats": {
+    interactionStyle: "restrained",
+    ornamentPreset: "detail_studies",
+    assetPlacement: "center",
+    panelHeight: "short",
+    scrubStrength: 0.61,
+  },
   "/contact-us": {
     interactionStyle: "restrained",
     ornamentPreset: "contact_timeline",
@@ -479,6 +692,139 @@ export const routeExperienceConfig: Record<string, RouteExperienceConfig> = {
     variantId: "custom-program-builder",
     assetBundleId: "custom-program-core",
   },
+  "/methodology": {
+    experienceKind: "surveys_decision_matrix",
+    chapterCount: 4,
+    chapterStyle: "branched",
+    variantId: "methodology-hub-overview",
+    assetBundleId: "methodology-hub-overview",
+  },
+  "/methodology/atr-counts": {
+    experienceKind: "detail_counts_stackdeck",
+    chapterCount: 4,
+    chapterStyle: "stacked",
+    variantId: "method-atr-counts",
+    assetBundleId: "method-atr-counts",
+  },
+  "/methodology/turning-movement-counts": {
+    experienceKind: "detail_counts_stackdeck",
+    chapterCount: 4,
+    chapterStyle: "stacked",
+    variantId: "method-turning-counts",
+    assetBundleId: "method-turning-counts",
+  },
+  "/methodology/pedestrian-counts": {
+    experienceKind: "detail_counts_stackdeck",
+    chapterCount: 4,
+    chapterStyle: "stacked",
+    variantId: "method-pedestrian-counts",
+    assetBundleId: "method-pedestrian-counts",
+  },
+  "/methodology/parking-utilization-survey": {
+    experienceKind: "detail_surveys_ribbon_track",
+    chapterCount: 4,
+    chapterStyle: "carousel",
+    variantId: "method-parking-survey",
+    assetBundleId: "method-parking-survey",
+  },
+  "/methodology/license-plate-survey": {
+    experienceKind: "detail_surveys_ribbon_track",
+    chapterCount: 4,
+    chapterStyle: "carousel",
+    variantId: "method-license-plate",
+    assetBundleId: "method-license-plate",
+  },
+  "/methodology/vehicle-occupancy-surveys": {
+    experienceKind: "detail_surveys_ribbon_track",
+    chapterCount: 4,
+    chapterStyle: "carousel",
+    variantId: "method-vehicle-occupancy",
+    assetBundleId: "method-vehicle-occupancy",
+  },
+  "/methodology/ball-bank-study": {
+    experienceKind: "detail_studies_lens_lab",
+    chapterCount: 5,
+    chapterStyle: "linear",
+    variantId: "method-ball-bank",
+    assetBundleId: "method-ball-bank",
+  },
+  "/methodology/travel-time-studies": {
+    experienceKind: "detail_studies_lens_lab",
+    chapterCount: 5,
+    chapterStyle: "linear",
+    variantId: "method-travel-time",
+    assetBundleId: "method-travel-time",
+  },
+  "/methodology/gps-travel-runs": {
+    experienceKind: "detail_studies_lens_lab",
+    chapterCount: 5,
+    chapterStyle: "linear",
+    variantId: "method-gps-travel-runs",
+    assetBundleId: "method-gps-travel-runs",
+  },
+  "/methodology/delay-studies": {
+    experienceKind: "detail_studies_lens_lab",
+    chapterCount: 5,
+    chapterStyle: "linear",
+    variantId: "method-delay-studies",
+    assetBundleId: "method-delay-studies",
+  },
+  "/methodology/radar-speed-study": {
+    experienceKind: "detail_studies_lens_lab",
+    chapterCount: 5,
+    chapterStyle: "linear",
+    variantId: "method-radar-speed",
+    assetBundleId: "method-radar-speed",
+  },
+  "/methodology/gap-study": {
+    experienceKind: "detail_studies_lens_lab",
+    chapterCount: 5,
+    chapterStyle: "linear",
+    variantId: "method-gap-study",
+    assetBundleId: "method-gap-study",
+  },
+  "/methodology/cordon-counts": {
+    experienceKind: "detail_studies_lens_lab",
+    chapterCount: 5,
+    chapterStyle: "linear",
+    variantId: "method-cordon-counts",
+    assetBundleId: "method-cordon-counts",
+  },
+  "/methodology/customized-data-collection": {
+    experienceKind: "custom_program_flow_composer",
+    chapterCount: 4,
+    chapterStyle: "timeline",
+    variantId: "method-customized-program",
+    assetBundleId: "method-customized-program",
+  },
+  "/resources": {
+    experienceKind: "studies_evidence_observatory",
+    chapterCount: 4,
+    chapterStyle: "timeline",
+    variantId: "resources-hub-overview",
+    assetBundleId: "resources-hub-overview",
+  },
+  "/resources/service-selection-guide": {
+    experienceKind: "contact_intake_console",
+    chapterCount: 3,
+    chapterStyle: "timeline",
+    variantId: "resource-selection-guide",
+    assetBundleId: "resource-selection-guide",
+  },
+  "/resources/scheduling-and-duration-guide": {
+    experienceKind: "contact_intake_console",
+    chapterCount: 3,
+    chapterStyle: "timeline",
+    variantId: "resource-scheduling-guide",
+    assetBundleId: "resource-scheduling-guide",
+  },
+  "/resources/deliverables-and-report-formats": {
+    experienceKind: "contact_intake_console",
+    chapterCount: 3,
+    chapterStyle: "timeline",
+    variantId: "resource-deliverables-guide",
+    assetBundleId: "resource-deliverables-guide",
+  },
   "/contact-us": {
     experienceKind: "contact_intake_console",
     chapterCount: 3,
@@ -522,6 +868,22 @@ function inferLayoutFamily(page: PageContent): LayoutFamily {
 
   if (page.route === "/services") {
     return "services_hub";
+  }
+
+  if (page.route === "/methodology") {
+    return "methodology_hub";
+  }
+
+  if (page.route.startsWith("/methodology/")) {
+    return "methodology_detail";
+  }
+
+  if (page.route === "/resources") {
+    return "resources_hub";
+  }
+
+  if (page.route.startsWith("/resources/")) {
+    return "resources_detail";
   }
 
   if (page.meta.template === "category") {

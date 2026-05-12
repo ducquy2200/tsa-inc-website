@@ -35,8 +35,8 @@ export function ApproachSection({ approach }: ApproachSectionProps) {
         <div className="divide-y divide-line border-y border-line">
           {approach.pillars.map((pillar, index) => (
             <Reveal key={pillar.title} delay={0.06 + index * 0.04}>
-              <article className="flex gap-4 py-5">
-                <span className="mt-2 inline-block h-2 w-2 rounded-full bg-clay" aria-hidden="true" />
+              <article className="flex items-start gap-4 py-5">
+                <span className="mt-[0.52rem] inline-block h-2 w-2 rounded-full bg-clay" aria-hidden="true" />
                 <div>
                   <h3 className="font-ui text-base font-semibold text-ink">{pillar.title}</h3>
                   <p className="mt-1 text-sm leading-7 text-ink/70">{pillar.description}</p>

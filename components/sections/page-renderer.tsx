@@ -28,8 +28,11 @@ export function PageRenderer({ page }: PageRendererProps) {
       return null;
     }
 
+    const routeUsesMotionMedia = page.route === "/services" || page.route === "/contact-us";
     const hubAssetBundleId = page.route === "/services" ? layout.experienceConfig.assetBundleId : undefined;
-    const mediaStory = getRouteMediaStory(page.route, layout.mediaSlot, hubAssetBundleId);
+    const mediaStory = routeUsesMotionMedia
+      ? getRouteMediaStory(page.route, layout.mediaSlot, hubAssetBundleId)
+      : null;
     return <RouteFamilyLayouts layout={layout} mediaStory={mediaStory} page={page} />;
   }
 

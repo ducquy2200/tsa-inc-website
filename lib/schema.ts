@@ -76,6 +76,46 @@ const detailSchema = z.object({
   faqs: z.array(faqSchema).min(1),
 });
 
+const methodProfileSchema = z.object({
+  objective: z.string().min(1),
+  tools: z.array(z.string().min(1)).min(1),
+  processSteps: z
+    .array(
+      z.object({
+        title: z.string().min(1),
+        description: z.string().min(1),
+      }),
+    )
+    .min(1),
+  capturedData: z.array(z.string().min(1)).min(1),
+  analysisOutputs: z.array(z.string().min(1)).min(1),
+  standards: z.array(z.string().min(1)).min(1),
+  durationRules: z.array(z.string().min(1)).min(1),
+  serviceHref: z.string().startsWith("/"),
+});
+
+const resourceGuideSchema = z.object({
+  purpose: z.string().min(1),
+  decisionCards: z
+    .array(
+      z.object({
+        title: z.string().min(1),
+        description: z.string().min(1),
+        href: z.string().startsWith("/").optional(),
+      }),
+    )
+    .min(1),
+  comparisonRows: z
+    .array(
+      z.object({
+        topic: z.string().min(1),
+        guidance: z.string().min(1),
+      }),
+    )
+    .min(1),
+  nextActions: z.array(z.string().min(1)).min(1),
+});
+
 const contactSchema = z.object({
   title: z.string().min(1),
   subtitle: z.string().min(1),
@@ -118,6 +158,10 @@ export const frontmatterSchema = z.object({
       "detail_counts",
       "detail_surveys",
       "detail_studies",
+      "methodology_hub",
+      "methodology_detail",
+      "resources_hub",
+      "resources_detail",
       "custom_program",
       "contact",
     ])
@@ -138,6 +182,8 @@ export const frontmatterSchema = z.object({
   approach: approachSchema.optional(),
   audiences: audienceSchema.optional(),
   detail: detailSchema.optional(),
+  methodProfile: methodProfileSchema.optional(),
+  resourceGuide: resourceGuideSchema.optional(),
   contact: contactSchema.optional(),
   relatedLinks: z.array(ctaLinkSchema).optional(),
 });

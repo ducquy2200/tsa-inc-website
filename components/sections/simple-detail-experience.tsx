@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 import { Reveal } from "@/components/ui/reveal";
 import { surfacePanel } from "@/components/ui/patterns";
@@ -286,8 +285,8 @@ export function SimpleDetailExperience({ route, detail, tone }: SimpleDetailExpe
   }
 
   const content = detailExperienceContentByRoute[route];
-  const activeItem = content.items.find((item) => item.href === route) ?? content.items[0];
-  if (!activeItem) {
+  const routeItem = content.items.find((item) => item.href === route) ?? content.items[0];
+  if (!routeItem) {
     return null;
   }
 
@@ -297,9 +296,7 @@ export function SimpleDetailExperience({ route, detail, tone }: SimpleDetailExpe
         detail={detail}
         heading={content.heading}
         intro={content.intro}
-        initialId={activeItem.id}
-        items={content.items}
-        route={route}
+        item={routeItem}
         tone={tone}
       />
     );
@@ -311,9 +308,7 @@ export function SimpleDetailExperience({ route, detail, tone }: SimpleDetailExpe
         detail={detail}
         heading={content.heading}
         intro={content.intro}
-        initialId={activeItem.id}
-        items={content.items}
-        route={route}
+        item={routeItem}
         tone={tone}
       />
     );
@@ -324,9 +319,7 @@ export function SimpleDetailExperience({ route, detail, tone }: SimpleDetailExpe
       detail={detail}
       heading={content.heading}
       intro={content.intro}
-      initialId={activeItem.id}
-      items={content.items}
-      route={route}
+      item={routeItem}
       tone={tone}
     />
   );
@@ -335,24 +328,19 @@ export function SimpleDetailExperience({ route, detail, tone }: SimpleDetailExpe
 function CountsFieldPlannerLite({
   heading,
   intro,
-  items,
+  item,
   tone,
   detail,
-  initialId,
-  route,
 }: {
   heading: string;
   intro: string;
-  items: DetailExperienceItem[];
+  item: DetailExperienceItem;
   tone: ToneVariant;
   detail: DetailSectionBlock;
-  initialId: string;
-  route: DetailServiceRoute;
 }) {
-  const [activeId, setActiveId] = useState(initialId);
-  const active = items.find((item) => item.id === activeId) ?? items[0];
-  const hasMultipleOptions = items.length > 1;
-  const scopeChecks = detail.faqs.map((faq) => faq.question).slice(0, 3);
+  const scopeChecks = detail.faqs.length
+    ? detail.faqs.map((faq) => faq.question).slice(0, 3)
+    : detail.whenToUse.slice(0, 3);
 
   return (
     <section className="px-5 py-12 sm:px-8 lg:px-10" data-testid="detail-counts-field-planner">
@@ -367,84 +355,48 @@ function CountsFieldPlannerLite({
         </Reveal>
         <div className="mt-7 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
           <Reveal>
-            {hasMultipleOptions ? (
-              <div className={cn(surfacePanel({ padding: "md" }), tone.accentBorder, "space-y-2")}>
-                {items.map((item, index) => {
-                  const selected = item.id === active.id;
-
-                  return (
-                    <button
-                      key={item.id}
-                      aria-pressed={selected}
-                      className={cn(
-                        "w-full rounded-xl border px-4 py-3 text-left transition",
-                        selected
-                          ? cn("bg-paper", tone.accentBorder, "shadow-[0_8px_24px_rgba(18,14,11,0.08)]")
-                          : "border-line/80 bg-paper/76 hover:border-line",
-                      )}
-                      onClick={() => {
-                        setActiveId(item.id);
-                      }}
-                      type="button"
-                    >
-                      <p className={cn("font-ui text-[10px] font-semibold uppercase tracking-[0.12em]", tone.accentText)}>
-                        Site context {String(index + 1).padStart(2, "0")}
-                      </p>
-                      <p className="mt-1 font-heading text-lg font-semibold text-ink">{item.title}</p>
-                      <p className="mt-2 text-xs text-ink/65">{item.question}</p>
-                    </button>
-                  );
-                })}
+            <article className={cn(surfacePanel({ padding: "md" }), tone.accentBorder)}>
+              <p className={cn("font-ui text-[10px] font-semibold uppercase tracking-[0.12em]", tone.accentText)}>
+                Project fit checks
+              </p>
+              <p className="mt-2 text-sm leading-7 text-ink/78">{item.question}</p>
+              <div className="mt-4 space-y-2">
+                {scopeChecks.map((check) => (
+                  <p key={check} className="flex items-start gap-2 text-sm leading-7 text-ink/74">
+                    <span className={cn("mt-[0.58rem] inline-block h-1.5 w-1.5 rounded-full", tone.accentDot)} />
+                    <span>{check}</span>
+                  </p>
+                ))}
               </div>
-            ) : (
-              <article className={cn(surfacePanel({ padding: "md" }), tone.accentBorder)}>
-                <p className={cn("font-ui text-[10px] font-semibold uppercase tracking-[0.12em]", tone.accentText)}>
-                  Project fit checks
-                </p>
-                <p className="mt-2 text-sm leading-7 text-ink/78">{active.question}</p>
-                <div className="mt-4 space-y-2">
-                  {scopeChecks.map((check) => (
-                    <p key={check} className="flex gap-2 text-sm leading-7 text-ink/74">
-                      <span className={cn("mt-2 inline-block h-1.5 w-1.5 rounded-full", tone.accentDot)} />
-                      <span>{check}</span>
-                    </p>
-                  ))}
-                </div>
-              </article>
-            )}
+            </article>
           </Reveal>
           <Reveal delay={0.05}>
             <article className={cn(surfacePanel({ padding: "lg" }), tone.accentBorder, "h-full")}>
               <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.12em]", tone.accentText)}>
                 Capture plan
               </p>
-              <h4 className="mt-2 font-heading text-2xl font-semibold leading-tight text-ink">{active.title}</h4>
+              <h4 className="mt-2 font-heading text-2xl font-semibold leading-tight text-ink">{item.title}</h4>
               <dl className="mt-5 grid gap-4">
                 <div>
                   <dt className="font-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/58">Method</dt>
-                  <dd className="mt-1 text-sm leading-7 text-ink/76">{active.method}</dd>
+                  <dd className="mt-1 text-sm leading-7 text-ink/76">{item.method}</dd>
                 </div>
                 <div>
                   <dt className="font-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/58">Captured data</dt>
-                  <dd className="mt-1 text-sm leading-7 text-ink/76">{active.capturedSignal}</dd>
+                  <dd className="mt-1 text-sm leading-7 text-ink/76">{item.capturedSignal}</dd>
                 </div>
                 <div>
                   <dt className="font-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/58">Delivery emphasis</dt>
-                  <dd className="mt-1 text-sm leading-7 text-ink/76">{active.deliveryEmphasis}</dd>
+                  <dd className="mt-1 text-sm leading-7 text-ink/76">{item.deliveryEmphasis}</dd>
                 </div>
               </dl>
               <p className="mt-4 rounded-xl border border-line/80 bg-paper/80 px-4 py-3 text-sm leading-7 text-ink/75">
-                <span className="font-semibold text-ink/84">Best for:</span> {active.bestFor}
+                <span className="font-semibold text-ink/84">Best for:</span> {item.bestFor}
               </p>
               <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
                 <Link className={cn("font-semibold transition hover:opacity-85", tone.accentText)} href="/services/counts">
                   All count services {"->"}
                 </Link>
-                {active.href !== route ? (
-                  <Link className={cn("font-semibold transition hover:opacity-85", tone.accentText)} href={active.href}>
-                    Open related detail {"->"}
-                  </Link>
-                ) : null}
               </div>
             </article>
           </Reveal>
@@ -457,26 +409,16 @@ function CountsFieldPlannerLite({
 function SurveysTradeoffWorkbenchLite({
   heading,
   intro,
-  items,
+  item,
   tone,
   detail,
-  initialId,
-  route,
 }: {
   heading: string;
   intro: string;
-  items: DetailExperienceItem[];
+  item: DetailExperienceItem;
   tone: ToneVariant;
   detail: DetailSectionBlock;
-  initialId: string;
-  route: DetailServiceRoute;
 }) {
-  const [pinnedId, setPinnedId] = useState<string | null>(initialId);
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-
-  const activeId = pinnedId ?? hoveredId ?? initialId;
-  const active = items.find((item) => item.id === activeId) ?? items[0];
-  const hasMultipleOptions = items.length > 1;
   const decisionAnchors = detail.whenToUse.slice(0, 3);
 
   return (
@@ -492,76 +434,21 @@ function SurveysTradeoffWorkbenchLite({
         </Reveal>
         <div className="mt-7 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
           <Reveal>
-            {hasMultipleOptions ? (
-              <div className={cn(surfacePanel({ padding: "md" }), tone.accentBorder, "divide-y divide-line/85")}>
-                <div className="grid grid-cols-[1.05fr_1.05fr_0.9fr] gap-3 px-2 pb-2">
-                  <p className="font-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/55">Survey option</p>
-                  <p className="font-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/55">Signal captured</p>
-                  <p className="font-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/55">Decision fit</p>
-                </div>
-                {items.map((item) => {
-                  const activeRow = active.id === item.id;
-                  const pinned = pinnedId === item.id;
-
-                  return (
-                    <button
-                      key={item.id}
-                      aria-pressed={pinned}
-                      className={cn(
-                        "group grid w-full grid-cols-[1.05fr_1.05fr_0.9fr] gap-3 px-2 py-3 text-left transition",
-                        activeRow ? "bg-paper/92" : "bg-transparent hover:bg-paper/78",
-                      )}
-                      onClick={() => {
-                        setPinnedId((current) => (current === item.id ? null : item.id));
-                      }}
-                      onMouseEnter={() => {
-                        setHoveredId(item.id);
-                      }}
-                      onMouseLeave={() => {
-                        setHoveredId(null);
-                      }}
-                      onFocus={() => {
-                        setHoveredId(item.id);
-                      }}
-                      onBlur={() => {
-                        setHoveredId(null);
-                      }}
-                      type="button"
-                    >
-                      <div>
-                        <p className="font-heading text-base font-semibold text-ink">{item.title}</p>
-                        <p className="mt-1 text-xs text-ink/62">{item.question}</p>
-                      </div>
-                      <p className="text-xs leading-6 text-ink/72">{item.capturedSignal}</p>
-                      <div className="flex items-start gap-2">
-                        <span
-                          className={cn(
-                            "mt-2 inline-block h-2 w-2 rounded-full transition",
-                            activeRow ? tone.accentDot : "bg-line",
-                          )}
-                        />
-                        <p className="text-xs leading-6 text-ink/72">{item.bestFor}</p>
-                      </div>
-                    </button>
-                  );
-                })}
+            <article className={cn(surfacePanel({ padding: "md" }), tone.accentBorder)}>
+              <p className={cn("font-ui text-[10px] font-semibold uppercase tracking-[0.12em]", tone.accentText)}>
+                Decision anchors
+              </p>
+              <p className="mt-2 text-sm leading-7 text-ink/78">{item.question}</p>
+              <p className="mt-2 text-sm leading-7 text-ink/72">{item.capturedSignal}</p>
+              <div className="mt-4 space-y-2">
+                {decisionAnchors.map((anchor) => (
+                  <p key={anchor} className="flex items-start gap-2 text-sm leading-7 text-ink/74">
+                    <span className={cn("mt-[0.58rem] inline-block h-1.5 w-1.5 rounded-full", tone.accentDot)} />
+                    <span>{anchor}</span>
+                  </p>
+                ))}
               </div>
-            ) : (
-              <article className={cn(surfacePanel({ padding: "md" }), tone.accentBorder)}>
-                <p className={cn("font-ui text-[10px] font-semibold uppercase tracking-[0.12em]", tone.accentText)}>
-                  Decision anchors
-                </p>
-                <p className="mt-2 text-sm leading-7 text-ink/78">{active.question}</p>
-                <div className="mt-4 space-y-2">
-                  {decisionAnchors.map((anchor) => (
-                    <p key={anchor} className="flex gap-2 text-sm leading-7 text-ink/74">
-                      <span className={cn("mt-2 inline-block h-1.5 w-1.5 rounded-full", tone.accentDot)} />
-                      <span>{anchor}</span>
-                    </p>
-                  ))}
-                </div>
-              </article>
-            )}
+            </article>
           </Reveal>
 
           <Reveal delay={0.05}>
@@ -569,20 +456,15 @@ function SurveysTradeoffWorkbenchLite({
               <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.12em]", tone.accentText)}>
                 Active decision profile
               </p>
-              <h4 className="mt-2 font-heading text-2xl font-semibold leading-tight text-ink">{active.title}</h4>
-              <p className="mt-3 text-sm leading-7 text-ink/75">{active.method}</p>
+              <h4 className="mt-2 font-heading text-2xl font-semibold leading-tight text-ink">{item.title}</h4>
+              <p className="mt-3 text-sm leading-7 text-ink/75">{item.method}</p>
               <p className="mt-3 rounded-xl border border-line/80 bg-paper/80 px-4 py-3 text-sm leading-7 text-ink/75">
-                <span className="font-semibold text-ink/84">Output focus:</span> {active.deliveryEmphasis}
+                <span className="font-semibold text-ink/84">Output focus:</span> {item.deliveryEmphasis}
               </p>
               <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
                 <Link className={cn("font-semibold transition hover:opacity-85", tone.accentText)} href="/services/surveys">
                   All survey services {"->"}
                 </Link>
-                {active.href !== route ? (
-                  <Link className={cn("font-semibold transition hover:opacity-85", tone.accentText)} href={active.href}>
-                    Open related detail {"->"}
-                  </Link>
-                ) : null}
               </div>
             </aside>
           </Reveal>
@@ -595,24 +477,16 @@ function SurveysTradeoffWorkbenchLite({
 function StudiesQuestionNavigatorLite({
   heading,
   intro,
-  items,
+  item,
   tone,
   detail,
-  initialId,
-  route,
 }: {
   heading: string;
   intro: string;
-  items: DetailExperienceItem[];
+  item: DetailExperienceItem;
   tone: ToneVariant;
   detail: DetailSectionBlock;
-  initialId: string;
-  route: DetailServiceRoute;
 }) {
-  const initialItem = items.find((item) => item.id === initialId) ?? items[0];
-  const [activeId, setActiveId] = useState(initialItem.id);
-  const active = items.find((item) => item.id === activeId) ?? initialItem;
-  const hasMultipleOptions = items.length > 1;
   const routeAnchors = detail.whenToUse.slice(0, 3);
 
   return (
@@ -629,82 +503,48 @@ function StudiesQuestionNavigatorLite({
 
         <div className={cn("mt-7 rounded-[1.4rem] border p-4 sm:p-5", tone.accentBorder, tone.accentSoftBg)}>
           <div className="mt-5 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-            <div>
-              {hasMultipleOptions ? (
-                <div className="flex flex-wrap gap-2">
-                  {items.map((item) => {
-                    const selected = item.id === active.id;
-
-                    return (
-                      <button
-                        key={item.id}
-                        aria-pressed={selected}
-                        className={cn(
-                          "rounded-lg border px-3 py-2 text-sm transition",
-                          selected
-                            ? cn("bg-paper", tone.accentBorder, tone.accentText)
-                            : "border-line/80 bg-paper/82 text-ink/72 hover:border-line",
-                        )}
-                        onClick={() => {
-                          setActiveId(item.id);
-                        }}
-                        type="button"
-                      >
-                        {item.title}
-                      </button>
-                    );
-                  })}
-                </div>
-              ) : (
-                <article className={cn(surfacePanel({ padding: "md" }), tone.accentBorder)}>
-                  <p className={cn("font-ui text-[10px] font-semibold uppercase tracking-[0.12em]", tone.accentText)}>
-                    Study fit snapshot
+            <article className={cn(surfacePanel({ padding: "md" }), tone.accentBorder)}>
+              <p className={cn("font-ui text-[10px] font-semibold uppercase tracking-[0.12em]", tone.accentText)}>
+                Study fit snapshot
+              </p>
+              <p className="mt-2 text-sm leading-7 text-ink/78">{item.question}</p>
+              <div className="mt-4 space-y-2">
+                {routeAnchors.map((anchor) => (
+                  <p key={anchor} className="flex items-start gap-2 text-sm leading-7 text-ink/74">
+                    <span className={cn("mt-[0.58rem] inline-block h-1.5 w-1.5 rounded-full", tone.accentDot)} />
+                    <span>{anchor}</span>
                   </p>
-                  <p className="mt-2 text-sm leading-7 text-ink/78">{active.question}</p>
-                  <div className="mt-4 space-y-2">
-                    {routeAnchors.map((anchor) => (
-                      <p key={anchor} className="flex gap-2 text-sm leading-7 text-ink/74">
-                        <span className={cn("mt-2 inline-block h-1.5 w-1.5 rounded-full", tone.accentDot)} />
-                        <span>{anchor}</span>
-                      </p>
-                    ))}
-                  </div>
-                </article>
-              )}
-            </div>
+                ))}
+              </div>
+            </article>
             <article className={cn(surfacePanel({ padding: "md" }), tone.accentBorder)}>
               <p className={cn("font-ui text-[10px] font-semibold uppercase tracking-[0.12em]", tone.accentText)}>
                 Interpretation panel
               </p>
-              <h4 className="mt-2 font-heading text-xl font-semibold leading-tight text-ink">{active.title}</h4>
-              <p className="mt-2 text-sm leading-7 text-ink/75">{active.question}</p>
+              <h4 className="mt-2 font-heading text-xl font-semibold leading-tight text-ink">{item.title}</h4>
+              <p className="mt-2 text-sm leading-7 text-ink/75">{item.question}</p>
               <dl className="mt-4 grid gap-3">
                 <div>
                   <dt className="font-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/58">Method</dt>
-                  <dd className="mt-1 text-sm leading-7 text-ink/76">{active.method}</dd>
+                  <dd className="mt-1 text-sm leading-7 text-ink/76">{item.method}</dd>
                 </div>
                 <div>
                   <dt className="font-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/58">Signal captured</dt>
-                  <dd className="mt-1 text-sm leading-7 text-ink/76">{active.capturedSignal}</dd>
+                  <dd className="mt-1 text-sm leading-7 text-ink/76">{item.capturedSignal}</dd>
                 </div>
                 <div>
                   <dt className="font-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/58">Use-case fit</dt>
-                  <dd className="mt-1 text-sm leading-7 text-ink/76">{active.bestFor}</dd>
+                  <dd className="mt-1 text-sm leading-7 text-ink/76">{item.bestFor}</dd>
                 </div>
                 <div>
                   <dt className="font-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/58">Delivery emphasis</dt>
-                  <dd className="mt-1 text-sm leading-7 text-ink/76">{active.deliveryEmphasis}</dd>
+                  <dd className="mt-1 text-sm leading-7 text-ink/76">{item.deliveryEmphasis}</dd>
                 </div>
               </dl>
               <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
                 <Link className={cn("font-semibold transition hover:opacity-85", tone.accentText)} href="/services/studies">
                   All study services {"->"}
                 </Link>
-                {active.href !== route ? (
-                  <Link className={cn("font-semibold transition hover:opacity-85", tone.accentText)} href={active.href}>
-                    Open related detail {"->"}
-                  </Link>
-                ) : null}
               </div>
             </article>
           </div>

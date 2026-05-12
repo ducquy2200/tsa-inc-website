@@ -6,6 +6,12 @@ import {
 } from "@/components/sections/route-families/category-layouts";
 import { ContactRouteLayout, CustomProgramLayout } from "@/components/sections/route-families/custom-contact-layouts";
 import { DetailCountsLayout, DetailStudiesLayout, DetailSurveysLayout } from "@/components/sections/route-families/detail-layouts";
+import {
+  MethodologyDetailLayout,
+  MethodologyHubLayout,
+  ResourcesDetailLayout,
+  ResourcesHubLayout,
+} from "@/components/sections/route-families/method-resource-layouts";
 import { toneVariants } from "@/lib/theme";
 import type { ResolvedRouteLayout } from "@/lib/layout-orchestration";
 import type { RouteMediaStory } from "@/lib/media-assets";
@@ -46,6 +52,22 @@ export function RouteFamilyLayouts({ page, layout, mediaStory }: RouteFamilyLayo
 
   if (layout.family === "detail_studies") {
     return <DetailStudiesLayout layout={layout} mediaStory={mediaStory} page={page} tone={tone} />;
+  }
+
+  if (layout.family === "methodology_hub") {
+    return <MethodologyHubLayout layout={layout} mediaStory={mediaStory} page={page} tone={tone} />;
+  }
+
+  if (layout.family === "methodology_detail") {
+    return <MethodologyDetailLayout layout={layout} mediaStory={mediaStory} page={page} tone={tone} />;
+  }
+
+  if (layout.family === "resources_hub") {
+    return <ResourcesHubLayout layout={layout} mediaStory={mediaStory} page={page} tone={tone} />;
+  }
+
+  if (layout.family === "resources_detail") {
+    return <ResourcesDetailLayout layout={layout} mediaStory={mediaStory} page={page} tone={tone} />;
   }
 
   if (layout.family === "contact") {

@@ -5,6 +5,8 @@ import { getRouteMediaStory } from "../lib/media-assets";
 const requiredRoutes = [
   "/",
   "/services",
+  "/methodology",
+  "/resources",
   "/services/counts",
   "/services/surveys",
   "/services/studies",
@@ -23,7 +25,41 @@ const requiredRoutes = [
   "/services/studies/cordon-counts",
   "/services/studies/gap-study",
   "/services/studies/gps-travel-runs",
+  "/methodology/atr-counts",
+  "/methodology/turning-movement-counts",
+  "/methodology/pedestrian-counts",
+  "/methodology/parking-utilization-survey",
+  "/methodology/license-plate-survey",
+  "/methodology/vehicle-occupancy-surveys",
+  "/methodology/ball-bank-study",
+  "/methodology/travel-time-studies",
+  "/methodology/gps-travel-runs",
+  "/methodology/delay-studies",
+  "/methodology/radar-speed-study",
+  "/methodology/gap-study",
+  "/methodology/cordon-counts",
+  "/methodology/customized-data-collection",
+  "/resources/service-selection-guide",
+  "/resources/scheduling-and-duration-guide",
+  "/resources/deliverables-and-report-formats",
 ];
+
+const methodologyRoutes = [
+  "/methodology/atr-counts",
+  "/methodology/turning-movement-counts",
+  "/methodology/pedestrian-counts",
+  "/methodology/parking-utilization-survey",
+  "/methodology/license-plate-survey",
+  "/methodology/vehicle-occupancy-surveys",
+  "/methodology/ball-bank-study",
+  "/methodology/travel-time-studies",
+  "/methodology/gps-travel-runs",
+  "/methodology/delay-studies",
+  "/methodology/radar-speed-study",
+  "/methodology/gap-study",
+  "/methodology/cordon-counts",
+  "/methodology/customized-data-collection",
+] as const;
 
 function isInternalLink(href: string) {
   return href.startsWith("/") && !href.startsWith("//");
@@ -97,6 +133,44 @@ async function main() {
         }
       }
     }
+
+    if (methodologyRoutes.includes(page.route as (typeof methodologyRoutes)[number])) {
+      if (!page.methodProfile) {
+        errors.push(`Missing methodProfile block on methodology route: ${page.route}`);
+      } else if (!routeSet.has(normalizeRoute(page.methodProfile.serviceHref))) {
+        errors.push(`Invalid methodology serviceHref on ${page.route}: ${page.methodProfile.serviceHref}`);
+      }
+    }
+  }
+
+  const turningMethod = pages.find((page) => page.route === "/methodology/turning-movement-counts");
+  if (
+    !turningMethod?.methodProfile?.durationRules.some(
+      (rule) =>
+        rule.includes("7:00-9:00") &&
+        rule.includes("11:00-14:00") &&
+        rule.includes("15:00-18:00"),
+    )
+  ) {
+    errors.push("Missing turning-movement peak window claim on /methodology/turning-movement-counts.");
+  }
+
+  const lprsMethod = pages.find((page) => page.route === "/methodology/license-plate-survey");
+  const lprsRules = [
+    ...(lprsMethod?.methodProfile?.durationRules ?? []),
+    ...(lprsMethod?.methodProfile?.standards ?? []),
+  ];
+  if (!lprsRules.some((rule) => rule.includes("95%"))) {
+    errors.push("Missing LPRS 95%+ accuracy claim on /methodology/license-plate-survey.");
+  }
+
+  const radarMethod = pages.find((page) => page.route === "/methodology/radar-speed-study");
+  if (
+    !radarMethod?.methodProfile?.durationRules.some((rule) =>
+      /2\s*hours?.*200\s*vehicles.*whichever\s*comes\s*first/i.test(rule),
+    )
+  ) {
+    errors.push("Missing radar speed duration rule claim on /methodology/radar-speed-study.");
   }
 
   if (errors.length > 0) {

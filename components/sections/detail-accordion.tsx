@@ -16,8 +16,8 @@ function BulletList({ title, items }: { title: string; items: string[] }) {
       <h3 className="font-ui text-xs font-semibold uppercase tracking-[0.14em] text-ink/60">{title}</h3>
       <ul className="mt-4 space-y-3">
         {items.map((item) => (
-          <li key={item} className="flex gap-3 text-sm leading-7 text-ink/75">
-            <span className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-clay" aria-hidden="true" />
+          <li key={item} className="flex items-start gap-3 text-sm leading-7 text-ink/75">
+            <span className="mt-[0.58rem] inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-clay" aria-hidden="true" />
             <span>{item}</span>
           </li>
         ))}

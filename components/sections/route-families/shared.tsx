@@ -20,6 +20,8 @@ export function RouteHeader({
   align = "left",
   sideContent,
   layout,
+  eyebrowClassName,
+  heroAccentClassName,
 }: {
   hero: HeroBlock;
   tone: ToneVariant;
@@ -27,6 +29,8 @@ export function RouteHeader({
   align?: "left" | "center";
   sideContent?: ReactNode;
   layout: ResolvedRouteLayout;
+  eyebrowClassName?: string;
+  heroAccentClassName?: string;
 }) {
   const centered = align === "center";
 
@@ -44,7 +48,7 @@ export function RouteHeader({
         <div className={cn("grid gap-10", sideContent ? "lg:grid-cols-[1.08fr_0.92fr] lg:items-end" : "")}>
           <div>
             <Reveal>
-              <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.16em]", tone.accentText)}>
+              <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.16em]", tone.accentText, eyebrowClassName)}>
                 {hero.eyebrow}
               </p>
             </Reveal>
@@ -59,7 +63,7 @@ export function RouteHeader({
                 {hero.lines.map((line, index) => (
                   <span key={`${line}-${index}`} className="block">
                     {hero.italicLineIndexes?.includes(index) ? (
-                      <em className={cn("font-body not-italic", tone.accentText)}>{line}</em>
+                      <em className={cn("font-body not-italic", tone.accentText, heroAccentClassName)}>{line}</em>
                     ) : (
                       line
                     )}
@@ -245,8 +249,8 @@ export function DetailListPanel({
       <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.13em]", tone.accentText)}>{title}</p>
       <ul className="mt-4 space-y-2.5">
         {items.map((item) => (
-          <li key={item} className="flex gap-3 text-sm leading-7 text-ink/75">
-            <span className={cn("mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full", tone.accentDot)} />
+          <li key={item} className="flex items-start gap-3 text-sm leading-7 text-ink/75">
+            <span className={cn("mt-[0.58rem] inline-block h-1.5 w-1.5 shrink-0 rounded-full", tone.accentDot)} />
             <span>{item}</span>
           </li>
         ))}

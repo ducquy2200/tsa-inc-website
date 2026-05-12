@@ -182,8 +182,8 @@ function FieldMethodPanel({
       <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.12em]", tone.accentText)}>Scope checks</p>
       <div className="mt-4 space-y-3">
         {checks.map((point) => (
-          <p key={point} className="flex gap-3 text-sm leading-6 text-ink/75">
-            <span className={cn("mt-2 inline-block h-1.5 w-1.5 rounded-full", tone.accentDot)} />
+          <p key={point} className="flex items-start gap-3 text-sm leading-6 text-ink/75">
+            <span className={cn("mt-[0.5rem] inline-block h-1.5 w-1.5 rounded-full", tone.accentDot)} />
             <span>{point}</span>
           </p>
         ))}

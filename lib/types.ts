@@ -7,6 +7,10 @@ export type LayoutFamily =
   | "detail_counts"
   | "detail_surveys"
   | "detail_studies"
+  | "methodology_hub"
+  | "methodology_detail"
+  | "resources_hub"
+  | "resources_detail"
   | "custom_program"
   | "contact";
 export type LayoutTone = "clay" | "amber" | "teal" | "slate" | "indigo";
@@ -196,6 +200,40 @@ export interface DetailSectionBlock {
   faqs: FAQItem[];
 }
 
+export interface MethodProcessStep {
+  title: string;
+  description: string;
+}
+
+export interface MethodProfileBlock {
+  objective: string;
+  tools: string[];
+  processSteps: MethodProcessStep[];
+  capturedData: string[];
+  analysisOutputs: string[];
+  standards: string[];
+  durationRules: string[];
+  serviceHref: string;
+}
+
+export interface ResourceDecisionCard {
+  title: string;
+  description: string;
+  href?: string;
+}
+
+export interface ResourceComparisonRow {
+  topic: string;
+  guidance: string;
+}
+
+export interface ResourceGuideBlock {
+  purpose: string;
+  decisionCards: ResourceDecisionCard[];
+  comparisonRows: ResourceComparisonRow[];
+  nextActions: string[];
+}
+
 export interface ContactTopic {
   label: string;
   value: string;
@@ -231,6 +269,8 @@ export interface PageContent {
   approach?: ApproachBlock;
   audiences?: AudienceBlock;
   detail?: DetailSectionBlock;
+  methodProfile?: MethodProfileBlock;
+  resourceGuide?: ResourceGuideBlock;
   contact?: CTAFormBlock;
   relatedLinks?: CtaLink[];
   body?: string;
