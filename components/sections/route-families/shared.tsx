@@ -151,9 +151,12 @@ export function renderMotionMedia(
     <PinnedMediaStack
       className={compact ? "py-12" : undefined}
       config={layout.motionConfig}
+      experienceKind={layout.experienceConfig.experienceKind}
       heading={heading}
       motionPreset={layout.motionPreset}
       story={mediaStory}
+      tone={tone}
+      variantId={layout.experienceConfig.variantId}
     />
   );
 }
@@ -165,7 +168,7 @@ export function ServiceGrid({
 }: {
   group: ServiceGroupBlock;
   tone: ToneVariant;
-  variant: "counts" | "surveys" | "studies";
+  variant: "counts" | "surveys" | "studies" | "services";
 }) {
   if (variant === "studies") {
     return (
@@ -195,7 +198,16 @@ export function ServiceGrid({
   }
 
   return (
-    <div className={cn("mt-10 grid gap-4", variant === "surveys" ? "md:grid-cols-3" : "md:grid-cols-2 xl:grid-cols-3")}>
+    <div
+      className={cn(
+        "mt-10 grid gap-4",
+        variant === "surveys"
+          ? "md:grid-cols-3"
+          : variant === "services"
+            ? "md:grid-cols-2"
+            : "md:grid-cols-2 xl:grid-cols-3",
+      )}
+    >
       {group.items.map((item, index) => (
         <Reveal key={item.href} delay={index * 0.05}>
           <Link
@@ -203,7 +215,12 @@ export function ServiceGrid({
             href={item.href}
           >
             <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.13em]", tone.accentText)}>
-              {variant === "surveys" ? "Decision Path" : "Operational Item"} {String(index + 1).padStart(2, "0")}
+              {variant === "surveys"
+                ? "Decision Path"
+                : variant === "services"
+                  ? "Service"
+                  : "Operational Item"}{" "}
+              {String(index + 1).padStart(2, "0")}
             </p>
             <p className="mt-3 font-heading text-xl font-semibold leading-snug text-ink">{item.title}</p>
             <p className="mt-3 text-sm leading-7 text-ink/72">{item.description}</p>

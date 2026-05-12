@@ -68,28 +68,47 @@ function applyBasePathToStory(story: RawRouteMediaStory): RawRouteMediaStory {
 }
 
 const routePhaseCounts: Record<string, number> = {
-  "/counts": 5,
-  "/surveys": 5,
-  "/studies": 7,
-  "/counts/intersection-turning-movement-counts": 4,
-  "/counts/atr-volume-classification-loop-detector-and-road-tube-counts": 4,
-  "/counts/pedestrian-counts": 4,
-  "/surveys/license-plate-survey": 4,
-  "/surveys/parking-occupancy-survey": 4,
-  "/surveys/vehicle-occupancy-surveys": 4,
-  "/ball-bank-study": 4,
-  "/cordon-counts": 4,
-  "/delay-studies": 4,
-  "/gap-study": 4,
-  "/gps-travel-runs": 4,
-  "/radar-speed-studies": 4,
-  "/travel-time-studies": 4,
-  "/customized-data-collection": 4,
+  "/services": 4,
+  "/services/counts": 5,
+  "/services/surveys": 5,
+  "/services/studies": 7,
+  "/services/counts/intersection-turning-movement-counts": 4,
+  "/services/counts/atr-volume-classification-loop-detector-and-road-tube-counts": 4,
+  "/services/counts/pedestrian-counts": 4,
+  "/services/surveys/license-plate-survey": 4,
+  "/services/surveys/parking-occupancy-survey": 4,
+  "/services/surveys/vehicle-occupancy-surveys": 4,
+  "/services/studies/ball-bank-study": 4,
+  "/services/studies/cordon-counts": 4,
+  "/services/studies/delay-studies": 4,
+  "/services/studies/gap-study": 4,
+  "/services/studies/gps-travel-runs": 4,
+  "/services/studies/radar-speed-studies": 4,
+  "/services/studies/travel-time-studies": 4,
+  "/services/customized-data-collection": 4,
   "/contact-us": 4,
 };
 
 const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
-  "/counts": [
+  "/services": [
+    {
+      title: "Select a count program",
+      description: "Open the counts route for intersection, ATR, and pedestrian capture methods.",
+    },
+    {
+      title: "Choose survey methodology",
+      description: "Open the surveys route for route-choice, occupancy, and utilization-focused field programs.",
+    },
+    {
+      title: "Open diagnostic studies",
+      description: "Open the studies route for speed, delay, travel-time, and safety-oriented technical analysis.",
+    },
+    {
+      title: "Compose a custom program",
+      description: "Open customized data collection for mixed-method scopes and non-standard project constraints.",
+    },
+  ],
+  "/services/counts": [
     {
       title: "Network context setup",
       description: "Frame the intersection and corridor locations that define the count boundary.",
@@ -103,7 +122,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Release validated count tables and summaries ready for planning analysis.",
     },
   ],
-  "/counts/intersection-turning-movement-counts": [
+  "/services/counts/intersection-turning-movement-counts": [
     {
       title: "Approach and lane framing",
       description: "Confirm lane groups, approaches, and modal tags before observation starts.",
@@ -117,7 +136,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Run QA checks and package the final turning movement tabulations.",
     },
   ],
-  "/counts/atr-volume-classification-loop-detector-and-road-tube-counts": [
+  "/services/counts/atr-volume-classification-loop-detector-and-road-tube-counts": [
     {
       title: "Sensor placement context",
       description: "Position road tubes or loops where classification and speed capture will be stable.",
@@ -131,7 +150,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Deliver cleaned interval summaries with class schema and speed metrics.",
     },
   ],
-  "/counts/pedestrian-counts": [
+  "/services/counts/pedestrian-counts": [
     {
       title: "Crossing point setup",
       description: "Define crossings, paths, and observation points in the public realm.",
@@ -145,7 +164,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Publish interval volumes and directional movement breakdowns for design decisions.",
     },
   ],
-  "/surveys": [
+  "/services/surveys": [
     {
       title: "Decision framing",
       description: "Tie the survey method to the planning question that needs to be answered.",
@@ -159,7 +178,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Translate survey observations into decision-ready evidence for stakeholders.",
     },
   ],
-  "/surveys/license-plate-survey": [
+  "/services/surveys/license-plate-survey": [
     {
       title: "Checkpoint network setup",
       description: "Place capture points to support robust origin-destination path matching.",
@@ -173,7 +192,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Deliver match-rate and OD summaries aligned to corridor analysis needs.",
     },
   ],
-  "/surveys/parking-occupancy-survey": [
+  "/services/surveys/parking-occupancy-survey": [
     {
       title: "Zone inventory framing",
       description: "Define curb, lot, and structure zones included in the occupancy program.",
@@ -187,7 +206,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Highlight peak stress periods and zone-level utilization differences.",
     },
   ],
-  "/surveys/vehicle-occupancy-surveys": [
+  "/services/surveys/vehicle-occupancy-surveys": [
     {
       title: "Observation rule setup",
       description: "Set class definitions, vantage points, and interval structure for occupant capture.",
@@ -201,7 +220,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Return occupancy rate tables for demand management evaluation.",
     },
   ],
-  "/studies": [
+  "/services/studies": [
     {
       title: "Study hypothesis framing",
       description: "Define the operational question and the field evidence needed to answer it.",
@@ -215,7 +234,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Deliver study findings in a format ready for technical decisions.",
     },
   ],
-  "/ball-bank-study": [
+  "/services/studies/ball-bank-study": [
     {
       title: "Curve test setup",
       description: "Select roadway segments and operating conditions for ball bank runs.",
@@ -229,7 +248,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Summarize safe operating ranges and supporting technical notes.",
     },
   ],
-  "/cordon-counts": [
+  "/services/studies/cordon-counts": [
     {
       title: "Boundary screenline setup",
       description: "Establish the cordon perimeter and crossing points around the study zone.",
@@ -243,7 +262,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Package area-level demand outputs for planning and access analysis.",
     },
   ],
-  "/delay-studies": [
+  "/services/studies/delay-studies": [
     {
       title: "Friction point selection",
       description: "Identify intersections and segments with recurring slowdown patterns.",
@@ -257,7 +276,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Return comparable delay evidence to prioritize intervention strategies.",
     },
   ],
-  "/gap-study": [
+  "/services/studies/gap-study": [
     {
       title: "Conflict point setup",
       description: "Define the crossing or access movements where usable gaps are assessed.",
@@ -271,7 +290,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Summarize gap distributions for crossing and intersection decisions.",
     },
   ],
-  "/gps-travel-runs": [
+  "/services/studies/gps-travel-runs": [
     {
       title: "Route run planning",
       description: "Define repeat run structure and segment checkpoints across the corridor.",
@@ -285,7 +304,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Deliver variability and consistency metrics across periods and runs.",
     },
   ],
-  "/radar-speed-studies": [
+  "/services/studies/radar-speed-studies": [
     {
       title: "Radar station setup",
       description: "Place calibrated radar equipment at locations matched to study goals.",
@@ -299,7 +318,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Publish percentile and distribution outputs for technical review.",
     },
   ],
-  "/travel-time-studies": [
+  "/services/studies/travel-time-studies": [
     {
       title: "Route definition setup",
       description: "Confirm origin-destination paths and segment checkpoints for timing analysis.",
@@ -313,7 +332,7 @@ const routeSceneTemplates: Record<string, RouteSceneTemplate> = {
       description: "Return travel-time and segment delay evidence for corridor decisions.",
     },
   ],
-  "/customized-data-collection": [
+  "/services/customized-data-collection": [
     {
       title: "Constraint intake",
       description: "Map project objectives, access limits, and timeline constraints.",
@@ -438,21 +457,35 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/counts": {
+  "/services": {
+    title: "Choose the service family that matches your objective",
+    intro:
+      "Route through counts, surveys, studies, or custom programs based on your project question and required outputs.",
+    clips: [
+      {
+        id: "route-4067",
+        title: "Network context framing",
+        description: "Transport context clip used to frame scoping conversations.",
+        videoSrc: "/media/videos/route-4067.mp4",
+        posterSrc: "/media/posters/route-4067.jpg",
+      },
+    ],
+  },
+  "/services/counts": {
     title: "Count programs grounded in real traffic behavior",
     intro:
       "Intersection and corridor count planning starts with clear visibility into movement density and directional distribution.",
     clips: [
       {
-        id: "route-56",
-        title: "Daytime traffic capture",
-        description: "Directional movement and lane usage in active daytime conditions.",
-        videoSrc: "/media/videos/route-56.mp4",
-        posterSrc: "/media/posters/route-56.jpg",
+        id: "mixkit-4251",
+        title: "Night avenue throughput",
+        description: "Dense avenue movement through night operations.",
+        videoSrc: "/media/videos/mixkit-4251.mp4",
+        posterSrc: "/media/posters/mixkit-4251.jpg",
       },
     ],
   },
-  "/counts/intersection-turning-movement-counts": {
+  "/services/counts/intersection-turning-movement-counts": {
     title: "Directional turning behavior in context",
     intro:
       "Turning movement programs depend on lane assignment accuracy, signal phase context, and peak-period behavior.",
@@ -466,7 +499,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/counts/atr-volume-classification-loop-detector-and-road-tube-counts": {
+  "/services/counts/atr-volume-classification-loop-detector-and-road-tube-counts": {
     title: "Continuous monitoring for volume and class",
     intro:
       "ATR and classification programs support reliable trend analysis when count windows and equipment placement are tuned correctly.",
@@ -480,7 +513,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/counts/pedestrian-counts": {
+  "/services/counts/pedestrian-counts": {
     title: "Pedestrian movement at crossing points",
     intro:
       "Pedestrian programs focus on crossing demand, route preference, and interaction timing at key public realm interfaces.",
@@ -494,7 +527,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/surveys": {
+  "/services/surveys": {
     title: "Behavior-focused survey programs",
     intro:
       "Survey design captures how people and vehicles move through networks, not just how many pass a single location.",
@@ -508,7 +541,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/surveys/license-plate-survey": {
+  "/services/surveys/license-plate-survey": {
     title: "Route tracing through plate matching",
     intro:
       "License plate surveys establish origin-destination pathing and route preference between control points.",
@@ -522,7 +555,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/surveys/parking-occupancy-survey": {
+  "/services/surveys/parking-occupancy-survey": {
     title: "Parking utilization in operating conditions",
     intro:
       "Occupancy programs identify demand spikes, turnover periods, and utilization imbalance across supply zones.",
@@ -536,7 +569,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/surveys/vehicle-occupancy-surveys": {
+  "/services/surveys/vehicle-occupancy-surveys": {
     title: "Vehicle occupancy capture at throughput points",
     intro:
       "Occupancy sampling supports mode-share and person-throughput analysis in policy and planning studies.",
@@ -550,7 +583,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/studies": {
+  "/services/studies": {
     title: "Specialized traffic studies with operational depth",
     intro:
       "Study programs combine field observation and measurement to explain why networks perform the way they do.",
@@ -564,7 +597,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/ball-bank-study": {
+  "/services/studies/ball-bank-study": {
     title: "Horizontal curve risk context",
     intro:
       "Ball bank studies evaluate roadway curvature conditions and driver comfort thresholds tied to safety outcomes.",
@@ -578,7 +611,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/cordon-counts": {
+  "/services/studies/cordon-counts": {
     title: "Boundary-based movement measurement",
     intro:
       "Cordon counts quantify inflow and outflow across defined boundaries for demand and network loading analysis.",
@@ -592,7 +625,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/delay-studies": {
+  "/services/studies/delay-studies": {
     title: "Delay formation and queue persistence",
     intro:
       "Delay studies isolate when and where network friction forms so improvements can target the real constraints.",
@@ -606,7 +639,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/gap-study": {
+  "/services/studies/gap-study": {
     title: "Gap acceptance in crossing decisions",
     intro:
       "Gap studies measure usable intervals in live traffic streams to support crossing and access recommendations.",
@@ -620,7 +653,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/gps-travel-runs": {
+  "/services/studies/gps-travel-runs": {
     title: "Corridor travel reliability",
     intro:
       "GPS travel runs profile corridor performance over time and expose recurring reliability constraints.",
@@ -634,7 +667,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/radar-speed-studies": {
+  "/services/studies/radar-speed-studies": {
     title: "Speed environment characterization",
     intro:
       "Radar speed studies capture prevailing speed patterns and distribution behavior under typical operating conditions.",
@@ -648,7 +681,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/travel-time-studies": {
+  "/services/studies/travel-time-studies": {
     title: "Segment and corridor travel time",
     intro:
       "Travel-time studies quantify run consistency, segment-level delay, and reliability across selected routes.",
@@ -662,7 +695,7 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       },
     ],
   },
-  "/customized-data-collection": {
+  "/services/customized-data-collection": {
     title: "Custom programs for mixed objectives",
     intro:
       "Custom collection packages combine methods and time windows to align with site-specific project questions.",
@@ -682,11 +715,11 @@ const routeMediaStories: Record<string, RawRouteMediaStory> = {
       "Share your scope and location constraints, and TSA will shape a practical collection plan around real operating conditions.",
     clips: [
       {
-        id: "route-4067",
-        title: "Network context framing",
-        description: "Transport context clip used to frame scoping conversations.",
-        videoSrc: "/media/videos/route-4067.mp4",
-        posterSrc: "/media/posters/route-4067.jpg",
+        id: "mixkit-11",
+        title: "Aerial city traffic at night",
+        description: "Aerial movement across lit intersections and city arteries.",
+        videoSrc: "/media/videos/mixkit-11.mp4",
+        posterSrc: "/media/posters/mixkit-11.jpg",
       },
     ],
   },
@@ -699,11 +732,11 @@ function resolveRoutePhaseCount(route: string, fallbackLength: number): number {
     return routePhaseCounts[route];
   }
 
-  if (route.startsWith("/counts")) {
+  if (route.startsWith("/services/counts")) {
     return 4;
   }
 
-  if (route.startsWith("/surveys")) {
+  if (route.startsWith("/services/surveys")) {
     return 4;
   }
 
@@ -711,7 +744,7 @@ function resolveRoutePhaseCount(route: string, fallbackLength: number): number {
     return 4;
   }
 
-  if (route === "/customized-data-collection") {
+  if (route === "/services/customized-data-collection") {
     return 4;
   }
 
@@ -719,7 +752,7 @@ function resolveRoutePhaseCount(route: string, fallbackLength: number): number {
 }
 
 function fallbackExpansionsForRoute(route: string): RouteSceneTemplate {
-  if (route === "/counts") {
+  if (route === "/services/counts") {
     return [
       {
         title: "Service-track coverage",
@@ -732,7 +765,7 @@ function fallbackExpansionsForRoute(route: string): RouteSceneTemplate {
     ];
   }
 
-  if (route === "/surveys") {
+  if (route === "/services/surveys") {
     return [
       {
         title: "Method selection by question",
@@ -745,7 +778,7 @@ function fallbackExpansionsForRoute(route: string): RouteSceneTemplate {
     ];
   }
 
-  if (route === "/studies") {
+  if (route === "/services/studies") {
     return [
       {
         title: "Safety and speed diagnostics",
@@ -766,7 +799,7 @@ function fallbackExpansionsForRoute(route: string): RouteSceneTemplate {
     ];
   }
 
-  if (route.startsWith("/counts/")) {
+  if (route.startsWith("/services/counts/")) {
     return [
       {
         title: "Collection method execution",
@@ -775,7 +808,7 @@ function fallbackExpansionsForRoute(route: string): RouteSceneTemplate {
     ];
   }
 
-  if (route.startsWith("/surveys/")) {
+  if (route.startsWith("/services/surveys/")) {
     return [
       {
         title: "Collection method execution",
@@ -793,7 +826,7 @@ function fallbackExpansionsForRoute(route: string): RouteSceneTemplate {
     ];
   }
 
-  if (route === "/customized-data-collection") {
+  if (route === "/services/customized-data-collection") {
     return [
       {
         title: "Program validation and handoff",
@@ -841,7 +874,7 @@ function getSceneTiming(index: number, total: number): Pick<MediaScene, "start" 
 }
 
 function fallbackTemplateForRoute(route: string): RouteSceneTemplate {
-  if (route.startsWith("/counts")) {
+  if (route.startsWith("/services/counts")) {
     return [
       {
         title: "Field setup context",
@@ -858,7 +891,7 @@ function fallbackTemplateForRoute(route: string): RouteSceneTemplate {
     ];
   }
 
-  if (route.startsWith("/surveys")) {
+  if (route.startsWith("/services/surveys")) {
     return [
       {
         title: "Survey framing context",
@@ -892,7 +925,7 @@ function fallbackTemplateForRoute(route: string): RouteSceneTemplate {
     ];
   }
 
-  if (route === "/customized-data-collection") {
+  if (route === "/services/customized-data-collection") {
     return [
       {
         title: "Constraint intake",
@@ -973,11 +1006,11 @@ function buildScenesFromClips(route: string, clips: ScrollMediaClip[]): MediaSce
       overlayPreset:
         route === "/contact-us"
           ? "console"
-          : route === "/customized-data-collection"
+          : route === "/services/customized-data-collection"
             ? "composer"
-            : route.startsWith("/surveys")
+            : route.startsWith("/services/surveys")
               ? "matrix"
-              : route.startsWith("/counts")
+              : route.startsWith("/services/counts")
                 ? "stack"
                 : "lens",
       variantHint: `${route}-variant-${index + 1}`,
@@ -1004,13 +1037,13 @@ function normalizeStory(cacheKey: string, route: string, story: RawRouteMediaSto
 }
 
 const mediaSlotStories: Record<string, RawRouteMediaStory> = {
-  counts_operational: routeMediaStories["/counts"],
-  surveys_decision: routeMediaStories["/surveys"],
-  studies_diagnostic: routeMediaStories["/studies"],
-  detail_counts: routeMediaStories["/counts/intersection-turning-movement-counts"],
-  detail_surveys: routeMediaStories["/surveys/license-plate-survey"],
-  detail_studies: routeMediaStories["/travel-time-studies"],
-  custom_program: routeMediaStories["/customized-data-collection"],
+  counts_operational: routeMediaStories["/services/counts"],
+  surveys_decision: routeMediaStories["/services/surveys"],
+  studies_diagnostic: routeMediaStories["/services/studies"],
+  detail_counts: routeMediaStories["/services/counts/intersection-turning-movement-counts"],
+  detail_surveys: routeMediaStories["/services/surveys/license-plate-survey"],
+  detail_studies: routeMediaStories["/services/studies/travel-time-studies"],
+  custom_program: routeMediaStories["/services/customized-data-collection"],
   contact_context: routeMediaStories["/contact-us"],
 };
 
@@ -1054,6 +1087,7 @@ const clipCatalog = {
 } as const;
 
 const assetBundles: Record<string, ScrollMediaClip[]> = {
+  "services-hub": [clipCatalog.route4067, clipCatalog.route127, clipCatalog.route1755, clipCatalog.route42369],
   "counts-overview": [clipCatalog.route56, clipCatalog.mixkit2032, clipCatalog.route611, clipCatalog.mixkit4251, clipCatalog.mixkit50998],
   "surveys-overview": [clipCatalog.route127, clipCatalog.route2449, clipCatalog.route2486, clipCatalog.mixkit4331],
   "studies-overview": [clipCatalog.route1755, clipCatalog.route3304, clipCatalog.route4343, clipCatalog.route44651, clipCatalog.route44653, clipCatalog.mixkit49846],

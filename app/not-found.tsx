@@ -4,9 +4,7 @@ import Link from "next/link";
 
 const fallbackNav = [
   { href: "/", label: "Home" },
-  { href: "/counts", label: "Counts" },
-  { href: "/surveys", label: "Surveys" },
-  { href: "/studies", label: "Studies" },
+  { href: "/services", label: "Services" },
   { href: "/contact-us", label: "Contact" },
 ];
 

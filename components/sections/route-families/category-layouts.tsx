@@ -1,17 +1,94 @@
 import { CtaStrip } from "@/components/sections/cta-strip";
 import { MarkdownSection } from "@/components/sections/markdown-section";
 import { RelatedLinks } from "@/components/sections/related-links";
+import { SimpleFamilySpotlight } from "@/components/sections/simple-family-spotlight";
 import { StatementBlock } from "@/components/sections/statement-block";
 import { Heading } from "@/components/ui/heading";
 import { surfacePanel } from "@/components/ui/patterns";
 import { Reveal } from "@/components/ui/reveal";
-import type { ToneVariant } from "@/lib/theme";
+import { toneVariants, type ToneVariant } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
 import type { RouteFamilyLayoutsPropsWithTone } from "./types";
 import { renderMotionMedia, RouteHeader, ServiceGrid } from "./shared";
 
-export function CategoryCountsLayout({ page, layout, tone, mediaStory }: RouteFamilyLayoutsPropsWithTone) {
+export function ServicesHubLayout({ page, layout, tone, mediaStory }: RouteFamilyLayoutsPropsWithTone) {
+  const group = page.serviceGroups?.[0];
+  const hero = page.hero;
+  if (!hero || !group) {
+    return null;
+  }
+  const legacyForegroundTone: ToneVariant = {
+    ...tone,
+    accentText: toneVariants.clay.accentText,
+    accentDot: toneVariants.clay.accentDot,
+  };
+
+  return (
+    <>
+      <RouteHeader align="center" hero={hero} layout={layout} tone={legacyForegroundTone} />
+
+      <section className={cn("relative overflow-hidden border-y px-5 py-10 sm:px-8 lg:px-10", tone.accentBorder, tone.accentSoftBg)}>
+        <div className={cn("pointer-events-none absolute inset-0 bg-gradient-to-br opacity-70", tone.accentGradient)} />
+        <div className="relative mx-auto max-w-6xl">
+          <Reveal>
+            <div className={cn(surfacePanel({ padding: "lg" }), "sm:p-8", legacyForegroundTone.accentBorder, "bg-paper/90")}>
+              <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.13em]", legacyForegroundTone.accentText)}>
+                Service alignment
+              </p>
+              <p className="mt-2 text-sm leading-7 text-ink/75">
+                Start by matching your project objective, field conditions, and required output format. Then open the
+                service family below that best fits that scope.
+              </p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                <p className="rounded-xl border border-line/80 bg-paper/85 px-4 py-3 text-sm text-ink/75">Objective and decision timeline</p>
+                <p className="rounded-xl border border-line/80 bg-paper/85 px-4 py-3 text-sm text-ink/75">Field context and observation constraints</p>
+                <p className="rounded-xl border border-line/80 bg-paper/85 px-4 py-3 text-sm text-ink/75">Reporting format and delivery depth</p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {renderMotionMedia(layout, legacyForegroundTone, mediaStory, "Service decision chapter")}
+      <section className={cn("relative overflow-hidden px-5 pb-20 pt-16 sm:px-8 lg:px-10", tone.accentSoftBg)}>
+        <div className={cn("pointer-events-none absolute inset-0 bg-gradient-to-tr opacity-50", tone.accentGradient)} />
+        <div className="relative mx-auto max-w-6xl">
+          <Reveal>
+            <div>
+              <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.12em]", legacyForegroundTone.accentText)}>
+                Services overview
+              </p>
+              <Heading
+                as="h2"
+                className="mt-2 text-[clamp(2rem,3.6vw,3rem)] font-extrabold leading-[1.06] tracking-[-0.03em] text-ink"
+              >
+                Choose a service family
+              </Heading>
+            </div>
+          </Reveal>
+          <Reveal delay={0.04}>
+            <p className="mt-4 max-w-3xl text-base leading-8 text-ink/75">{group.description}</p>
+          </Reveal>
+          <div className={cn("mt-8 rounded-[1.5rem] border p-4 sm:p-6", legacyForegroundTone.accentBorder, "bg-paper/88")}>
+            <ServiceGrid group={group} tone={legacyForegroundTone} variant="services" />
+          </div>
+        </div>
+      </section>
+
+      {page.statement ? <StatementBlock statement={page.statement} /> : null}
+      {page.body ? <MarkdownSection source={page.body} /> : null}
+      {page.relatedLinks?.length ? <RelatedLinks links={page.relatedLinks} compactBottom /> : null}
+      <CtaStrip
+        tag="Need help choosing?"
+        title="Tell us your objective and we will route you to the right method."
+        subtext="Share your scope and timeline, and we will recommend the best-fit service path with a no obligation quote."
+      />
+    </>
+  );
+}
+
+export function CategoryCountsLayout({ page, layout, tone }: RouteFamilyLayoutsPropsWithTone) {
   const group = page.serviceGroups?.[0];
   const hero = page.hero;
   if (!hero || !group) {
@@ -27,7 +104,7 @@ export function CategoryCountsLayout({ page, layout, tone, mediaStory }: RouteFa
         sideContent={<OperationalSnapshot group={group} tone={tone} />}
       />
 
-      {renderMotionMedia(layout, tone, mediaStory, "Operational movement chapter")}
+      <SimpleFamilySpotlight group={group} route="/services/counts" tone={tone} />
       <section className="bg-sand px-5 py-20 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-6xl">
           <Reveal>
@@ -54,7 +131,7 @@ export function CategoryCountsLayout({ page, layout, tone, mediaStory }: RouteFa
   );
 }
 
-export function CategorySurveysLayout({ page, layout, tone, mediaStory }: RouteFamilyLayoutsPropsWithTone) {
+export function CategorySurveysLayout({ page, layout, tone }: RouteFamilyLayoutsPropsWithTone) {
   const group = page.serviceGroups?.[0];
   const hero = page.hero;
   if (!hero || !group) {
@@ -82,7 +159,7 @@ export function CategorySurveysLayout({ page, layout, tone, mediaStory }: RouteF
         </div>
       </section>
 
-      {renderMotionMedia(layout, tone, mediaStory, "Survey decision chapter")}
+      <SimpleFamilySpotlight group={group} route="/services/surveys" tone={tone} />
       {page.statement ? <StatementBlock statement={page.statement} /> : null}
       {page.body ? <MarkdownSection source={page.body} /> : null}
       {page.relatedLinks?.length ? <RelatedLinks links={page.relatedLinks} compactBottom /> : null}
@@ -95,7 +172,7 @@ export function CategorySurveysLayout({ page, layout, tone, mediaStory }: RouteF
   );
 }
 
-export function CategoryStudiesLayout({ page, layout, tone, mediaStory }: RouteFamilyLayoutsPropsWithTone) {
+export function CategoryStudiesLayout({ page, layout, tone }: RouteFamilyLayoutsPropsWithTone) {
   const group = page.serviceGroups?.[0];
   const hero = page.hero;
   if (!hero || !group) {
@@ -125,7 +202,7 @@ export function CategoryStudiesLayout({ page, layout, tone, mediaStory }: RouteF
         </div>
       </section>
 
-      {renderMotionMedia(layout, tone, mediaStory, "Study evidence chapter")}
+      <SimpleFamilySpotlight group={group} route="/services/studies" tone={tone} />
       {page.statement ? <StatementBlock statement={page.statement} /> : null}
       {page.body ? <MarkdownSection source={page.body} /> : null}
       {page.relatedLinks?.length ? <RelatedLinks links={page.relatedLinks} compactBottom /> : null}
@@ -149,15 +226,10 @@ function OperationalSnapshot({
     <div className={cn(surfacePanel({ padding: "lg" }), tone.accentBorder)}>
       <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.12em]", tone.accentText)}>Operational Snapshot</p>
       <div className="mt-4 space-y-3">
-        {group.items.map((item, index) => (
-          <p key={item.href} className="flex items-start gap-3 text-sm leading-6 text-ink/75">
-            <span className={cn("mt-1 inline-block h-2 w-2 rounded-full", tone.accentDot)} />
-            <span>
-              <span className="font-ui text-xs font-semibold uppercase tracking-[0.08em] text-ink/55">
-                {String(index + 1).padStart(2, "0")}
-              </span>{" "}
-              {item.title}
-            </span>
+        {group.items.map((item) => (
+          <p key={item.href} className="flex items-center gap-3 text-sm leading-6 text-ink/75">
+            <span className={cn("inline-block h-2 w-2 shrink-0 rounded-full", tone.accentDot)} />
+            <span>{item.title}</span>
           </p>
         ))}
       </div>

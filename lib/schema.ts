@@ -111,6 +111,7 @@ export const frontmatterSchema = z.object({
   }),
   layoutFamily: z
     .enum([
+      "services_hub",
       "category_counts",
       "category_surveys",
       "category_studies",
@@ -121,7 +122,7 @@ export const frontmatterSchema = z.object({
       "contact",
     ])
     .optional(),
-  layoutTone: z.enum(["clay", "amber", "teal", "slate"]).optional(),
+  layoutTone: z.enum(["clay", "amber", "teal", "slate", "indigo"]).optional(),
   motionPreset: z.enum(["bold", "medium", "reduced"]).optional(),
   mediaMode: z.enum(["footage", "abstract", "hybrid"]).optional(),
   mediaSlot: z.string().min(1).optional(),

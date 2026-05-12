@@ -28,7 +28,8 @@ export function PageRenderer({ page }: PageRendererProps) {
       return null;
     }
 
-    const mediaStory = getRouteMediaStory(page.route, layout.mediaSlot);
+    const hubAssetBundleId = page.route === "/services" ? layout.experienceConfig.assetBundleId : undefined;
+    const mediaStory = getRouteMediaStory(page.route, layout.mediaSlot, hubAssetBundleId);
     return <RouteFamilyLayouts layout={layout} mediaStory={mediaStory} page={page} />;
   }
 

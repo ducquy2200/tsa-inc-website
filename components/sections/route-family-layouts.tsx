@@ -1,4 +1,9 @@
-import { CategoryCountsLayout, CategoryStudiesLayout, CategorySurveysLayout } from "@/components/sections/route-families/category-layouts";
+import {
+  CategoryCountsLayout,
+  CategoryStudiesLayout,
+  CategorySurveysLayout,
+  ServicesHubLayout,
+} from "@/components/sections/route-families/category-layouts";
 import { ContactRouteLayout, CustomProgramLayout } from "@/components/sections/route-families/custom-contact-layouts";
 import { DetailCountsLayout, DetailStudiesLayout, DetailSurveysLayout } from "@/components/sections/route-families/detail-layouts";
 import { toneVariants } from "@/lib/theme";
@@ -14,6 +19,10 @@ interface RouteFamilyLayoutsProps {
 
 export function RouteFamilyLayouts({ page, layout, mediaStory }: RouteFamilyLayoutsProps) {
   const tone = toneVariants[layout.tone];
+
+  if (layout.family === "services_hub") {
+    return <ServicesHubLayout layout={layout} mediaStory={mediaStory} page={page} tone={tone} />;
+  }
 
   if (layout.family === "category_counts") {
     return <CategoryCountsLayout layout={layout} mediaStory={mediaStory} page={page} tone={tone} />;

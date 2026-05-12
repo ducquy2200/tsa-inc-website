@@ -1,15 +1,16 @@
 import { CtaStrip } from "@/components/sections/cta-strip";
 import { MarkdownSection } from "@/components/sections/markdown-section";
 import { RelatedLinks } from "@/components/sections/related-links";
+import { SimpleDetailExperience } from "@/components/sections/simple-detail-experience";
 import { Heading } from "@/components/ui/heading";
 import { surfacePanel } from "@/components/ui/patterns";
 import { Reveal } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
 
 import type { RouteFamilyLayoutsPropsWithTone } from "./types";
-import { DetailFaqPanels, DetailListPanel, renderMotionMedia, RouteHeader } from "./shared";
+import { DetailFaqPanels, DetailListPanel, RouteHeader } from "./shared";
 
-export function DetailCountsLayout({ page, layout, tone, mediaStory }: RouteFamilyLayoutsPropsWithTone) {
+export function DetailCountsLayout({ page, layout, tone }: RouteFamilyLayoutsPropsWithTone) {
   const detail = page.detail;
   const hero = page.hero;
   if (!detail || !hero) {
@@ -20,7 +21,7 @@ export function DetailCountsLayout({ page, layout, tone, mediaStory }: RouteFami
     <>
       <RouteHeader hero={hero} layout={layout} tone={tone} sideContent={<FieldMethodPanel detail={detail} tone={tone} />} />
 
-      {renderMotionMedia(layout, tone, mediaStory, "Count process chapter", true)}
+      <SimpleDetailExperience detail={detail} route={page.route} tone={tone} />
       <section className="px-5 py-16 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-6xl">
           <Reveal>
@@ -51,7 +52,7 @@ export function DetailCountsLayout({ page, layout, tone, mediaStory }: RouteFami
   );
 }
 
-export function DetailSurveysLayout({ page, layout, tone, mediaStory }: RouteFamilyLayoutsPropsWithTone) {
+export function DetailSurveysLayout({ page, layout, tone }: RouteFamilyLayoutsPropsWithTone) {
   const detail = page.detail;
   const hero = page.hero;
   if (!detail || !hero) {
@@ -74,14 +75,10 @@ export function DetailSurveysLayout({ page, layout, tone, mediaStory }: RouteFam
               <p className="mt-3 max-w-4xl text-base leading-8 text-ink/75">{detail.intro}</p>
             </div>
           </Reveal>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <Reveal><DetailListPanel title="What this survey captures" items={detail.keyPoints} tone={tone} /></Reveal>
-            <Reveal delay={0.04}><DetailListPanel title="When this is the right method" items={detail.whenToUse} tone={tone} /></Reveal>
-          </div>
         </div>
       </section>
 
-      {renderMotionMedia(layout, tone, mediaStory, "Survey checkpoints", true)}
+      <SimpleDetailExperience detail={detail} route={page.route} tone={tone} />
 
       <section className="bg-sand px-5 py-16 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-6xl">
@@ -117,7 +114,7 @@ export function DetailSurveysLayout({ page, layout, tone, mediaStory }: RouteFam
   );
 }
 
-export function DetailStudiesLayout({ page, layout, tone, mediaStory }: RouteFamilyLayoutsPropsWithTone) {
+export function DetailStudiesLayout({ page, layout, tone }: RouteFamilyLayoutsPropsWithTone) {
   const detail = page.detail;
   const hero = page.hero;
   if (!detail || !hero) {
@@ -155,7 +152,7 @@ export function DetailStudiesLayout({ page, layout, tone, mediaStory }: RouteFam
         </div>
       </section>
 
-      {renderMotionMedia(layout, tone, mediaStory, "Study interpretation", true)}
+      <SimpleDetailExperience detail={detail} route={page.route} tone={tone} />
 
       <DetailFaqPanels detail={detail} tone={tone} />
       {page.body ? <MarkdownSection source={page.body} /> : null}
@@ -176,11 +173,15 @@ function FieldMethodPanel({
   detail: NonNullable<RouteFamilyLayoutsPropsWithTone["page"]["detail"]>;
   tone: RouteFamilyLayoutsPropsWithTone["tone"];
 }) {
+  const scopeChecks = detail.faqs.map((faq) => faq.question).slice(0, 3);
+  const fallbackChecks = detail.whenToUse.slice(0, 3);
+  const checks = scopeChecks.length > 0 ? scopeChecks : fallbackChecks;
+
   return (
     <div className={cn(surfacePanel({ padding: "lg" }), tone.accentBorder)}>
-      <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.12em]", tone.accentText)}>Field method rail</p>
+      <p className={cn("font-ui text-xs font-semibold uppercase tracking-[0.12em]", tone.accentText)}>Scope checks</p>
       <div className="mt-4 space-y-3">
-        {detail.keyPoints.slice(0, 4).map((point) => (
+        {checks.map((point) => (
           <p key={point} className="flex gap-3 text-sm leading-6 text-ink/75">
             <span className={cn("mt-2 inline-block h-1.5 w-1.5 rounded-full", tone.accentDot)} />
             <span>{point}</span>

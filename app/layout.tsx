@@ -38,7 +38,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${loraHeading.variable} ${loraBody.variable} ${syneMetric.variable} h-full scroll-smooth`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${loraHeading.variable} ${loraBody.variable} ${syneMetric.variable} h-full scroll-smooth`}
+    >
       <body className="min-h-full bg-paper font-body text-ink antialiased">{children}</body>
     </html>
   );

@@ -19,6 +19,10 @@
   --tone-slate-soft: #e2e8f0;
   --tone-slate-dot: #475569;
   --tone-slate-glow: #cbd5e1;
+  --tone-indigo: #455bc2;
+  --tone-indigo-soft: #e5e9ff;
+  --tone-indigo-dot: #5a70da;
+  --tone-indigo-glow: #cbd5ff;
 }
 
 @theme inline {
@@ -40,6 +44,10 @@
   --color-tone-slate-soft: var(--tone-slate-soft);
   --color-tone-slate-dot: var(--tone-slate-dot);
   --color-tone-slate-glow: var(--tone-slate-glow);
+  --color-tone-indigo: var(--tone-indigo);
+  --color-tone-indigo-soft: var(--tone-indigo-soft);
+  --color-tone-indigo-dot: var(--tone-indigo-dot);
+  --color-tone-indigo-glow: var(--tone-indigo-glow);
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
   --font-metric: var(--font-metric);

@@ -6,6 +6,7 @@ import { useMemo, useRef, useState } from "react";
 import { OrnamentField } from "@/components/sections/ornament-field";
 import { motionDuration, motionEasing, scrollSpring } from "@/lib/motion";
 import type { RouteMediaStory } from "@/lib/media-assets";
+import type { ToneVariant } from "@/lib/theme";
 import type { MotionPreset, RouteMotionConfig } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useMotionPreference } from "@/components/ui/use-motion-preference";
@@ -14,7 +15,10 @@ interface PinnedMediaStackProps {
   story: RouteMediaStory;
   config: RouteMotionConfig;
   motionPreset: MotionPreset;
+  tone: ToneVariant;
   heading: string;
+  experienceKind?: string;
+  variantId?: string;
   className?: string;
 }
 
@@ -46,7 +50,16 @@ function chapterHeight(sceneCount: number, style: RouteMotionConfig["interaction
   return `${Math.max(142, 110 + sceneCount * 44)}svh`;
 }
 
-export function PinnedMediaStack({ story, config, motionPreset, heading, className }: PinnedMediaStackProps) {
+export function PinnedMediaStack({
+  story,
+  config,
+  motionPreset,
+  tone,
+  heading,
+  experienceKind,
+  variantId,
+  className,
+}: PinnedMediaStackProps) {
   const hasSceneData = story.clips.length > 0 && story.scenes.length > 0;
   const { reduceMotion } = useMotionPreference(motionPreset);
   const stackRef = useRef<HTMLDivElement>(null);
@@ -117,17 +130,19 @@ export function PinnedMediaStack({ story, config, motionPreset, heading, classNa
   const activeClipIndex = activeSceneData.clipIndex;
   const scrollSpan = chapterHeight(story.scenes.length, config.interactionStyle);
 
-  const ornamentTintClass =
+  const ornamentTintOpacityClass =
     activeSceneData.ornamentState === "origin"
-      ? "from-clay/20 via-transparent"
+      ? "opacity-55"
       : activeSceneData.ornamentState === "merge"
-        ? "from-clay/30 via-clay/8"
-        : "from-clay/16 via-clay/5";
+        ? "opacity-80"
+        : "opacity-60";
 
   return (
     <section
       className={cn("relative bg-ink px-5 py-20 text-paper sm:px-8 lg:px-10", className)}
       data-active-scene={activeScene}
+      data-experience-kind={experienceKind}
+      data-variant-id={variantId}
       data-testid="pinned-media-stack"
     >
       <div className="mx-auto max-w-6xl">
@@ -141,9 +156,12 @@ export function PinnedMediaStack({ story, config, motionPreset, heading, classNa
       <div className="mx-auto mt-10 max-w-6xl">
         <div className="relative" ref={stackRef} style={{ height: scrollSpan }}>
           <div className={cn("sticky top-24 overflow-hidden rounded-[2rem] border border-paper/20 bg-paper/4 shadow-[0_24px_72px_rgba(0,0,0,0.36)]", panelHeightClass(config.panelHeight))}>
-            <motion.div className="absolute left-0 right-0 top-0 z-30 h-1.5 origin-left bg-clay" style={{ scaleX: reduceMotion ? 0 : smoothedProgress }} />
+            <motion.div
+              className={cn("absolute left-0 right-0 top-0 z-30 h-1.5 origin-left", tone.accentDot)}
+              style={{ scaleX: reduceMotion ? 0 : smoothedProgress }}
+            />
 
-            <div className={cn("pointer-events-none absolute inset-0 bg-gradient-to-br", ornamentTintClass)} />
+            <div className={cn("pointer-events-none absolute inset-0 bg-gradient-to-br", tone.accentGradient, ornamentTintOpacityClass)} />
             <OrnamentField className="opacity-90" motionPreset={motionPreset} placement={config.assetPlacement} preset={config.ornamentPreset} />
 
             <div className="absolute inset-0">

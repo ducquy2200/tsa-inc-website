@@ -33,7 +33,9 @@ async function walk(dir: string): Promise<string[]> {
 let contentCache: PageContent[] | null = null;
 
 export async function loadAllPages() {
-  if (contentCache) {
+  const shouldCache = process.env.NODE_ENV === "production";
+
+  if (shouldCache && contentCache) {
     return contentCache;
   }
 
@@ -68,8 +70,13 @@ export async function loadAllPages() {
     }),
   );
 
-  contentCache = pages.sort((a, b) => a.route.localeCompare(b.route));
-  return contentCache;
+  const sortedPages = pages.sort((a, b) => a.route.localeCompare(b.route));
+
+  if (shouldCache) {
+    contentCache = sortedPages;
+  }
+
+  return sortedPages;
 }
 
 export async function getAllRoutes() {
@@ -85,20 +92,23 @@ export async function getPageByRoute(route: string) {
 export async function getNavItems() {
   const pages = await loadAllPages();
 
-  const preferredOrder = [
-    "/",
-    "/counts",
-    "/surveys",
-    "/studies",
-    "/customized-data-collection",
-    "/contact-us",
+  const preferredOrder: Array<{ route: string; label: string }> = [
+    { route: "/", label: "Home" },
+    { route: "/services", label: "Services" },
+    { route: "/contact-us", label: "Contact" },
   ];
 
   return preferredOrder
-    .map((route) => pages.find((page) => page.route === route))
-    .filter((page): page is PageContent => Boolean(page))
-    .map((page) => ({
-      href: page.route,
-      label: page.meta.navLabel ?? page.meta.title,
-    }));
+    .map((entry) => {
+      const page = pages.find((candidate) => candidate.route === entry.route);
+      if (!page) {
+        return null;
+      }
+
+      return {
+        href: page.route,
+        label: entry.label,
+      };
+    })
+    .filter((item): item is { href: string; label: string } => Boolean(item));
 }

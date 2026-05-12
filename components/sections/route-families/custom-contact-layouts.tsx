@@ -2,6 +2,7 @@ import { ContactPanel } from "@/components/sections/contact-panel";
 import { CtaStrip } from "@/components/sections/cta-strip";
 import { MarkdownSection } from "@/components/sections/markdown-section";
 import { RelatedLinks } from "@/components/sections/related-links";
+import { SimpleFamilySpotlight } from "@/components/sections/simple-family-spotlight";
 import { Heading } from "@/components/ui/heading";
 import { surfacePanel } from "@/components/ui/patterns";
 import { Reveal } from "@/components/ui/reveal";
@@ -10,7 +11,7 @@ import { cn } from "@/lib/utils";
 import type { RouteFamilyLayoutsPropsWithTone } from "./types";
 import { DetailFaqPanels, DetailListPanel, renderMotionMedia, RouteHeader } from "./shared";
 
-export function CustomProgramLayout({ page, layout, tone, mediaStory }: RouteFamilyLayoutsPropsWithTone) {
+export function CustomProgramLayout({ page, layout, tone }: RouteFamilyLayoutsPropsWithTone) {
   const detail = page.detail;
   const hero = page.hero;
   if (!detail || !hero) {
@@ -21,7 +22,7 @@ export function CustomProgramLayout({ page, layout, tone, mediaStory }: RouteFam
     <>
       <RouteHeader hero={hero} layout={layout} tone={tone} sideContent={<ProgramBuilderPanel tone={tone} />} />
 
-      {renderMotionMedia(layout, tone, mediaStory, "Program scope chapter")}
+      <SimpleFamilySpotlight detail={detail} route="/services/customized-data-collection" tone={tone} />
       <section className="bg-sand px-5 py-18 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-6xl">
           <Reveal>

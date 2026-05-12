@@ -21,6 +21,12 @@ type OrnamentToken = {
 };
 
 const presetTokens: Record<OrnamentPreset, OrnamentToken[]> = {
+  services_hub: [
+    { id: "hub-1", kind: "ring", top: "8%", left: "10%", sizeClass: "h-13 w-13", opacityClass: "text-tone-indigo/42", duration: 8.4, delay: 0.1, drift: 18, spin: 5 },
+    { id: "hub-2", kind: "bars", top: "20%", left: "78%", sizeClass: "h-5 w-24", opacityClass: "text-tone-indigo/36", duration: 7.1, delay: 0.45, drift: 14, spin: -4 },
+    { id: "hub-3", kind: "nodes", top: "72%", left: "14%", sizeClass: "h-11 w-11", opacityClass: "text-tone-indigo/34", duration: 9.2, delay: 0.25, drift: 20, spin: 3 },
+    { id: "hub-4", kind: "arrow", top: "70%", left: "82%", sizeClass: "h-12 w-12", opacityClass: "text-tone-indigo/30", duration: 8, delay: 0.82, drift: 17, spin: -6 },
+  ],
   counts_flow: [
     { id: "counts-1", kind: "ring", top: "8%", left: "6%", sizeClass: "h-14 w-14", opacityClass: "text-clay/45", duration: 8.1, delay: 0.1, drift: 20, spin: 5 },
     { id: "counts-2", kind: "bars", top: "22%", left: "80%", sizeClass: "h-5 w-20", opacityClass: "text-clay/40", duration: 6.9, delay: 0.5, drift: 16, spin: -4 },

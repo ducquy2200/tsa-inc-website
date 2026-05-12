@@ -39,4 +39,11 @@ export const toneVariants: Record<ThemeTone, ToneVariant> = {
     accentDot: "bg-tone-slate-dot",
     accentGradient: "from-tone-slate-glow via-tone-slate-soft to-transparent",
   },
+  indigo: {
+    accentText: "text-tone-indigo",
+    accentBorder: "border-tone-indigo/35",
+    accentSoftBg: "bg-tone-indigo-soft",
+    accentDot: "bg-tone-indigo-dot",
+    accentGradient: "from-tone-indigo-glow via-tone-indigo-soft to-transparent",
+  },
 };

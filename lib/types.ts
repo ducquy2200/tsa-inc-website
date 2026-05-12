@@ -1,5 +1,6 @@
 export type PageTemplate = "home" | "category" | "detail" | "contact" | "custom";
 export type LayoutFamily =
+  | "services_hub"
   | "category_counts"
   | "category_surveys"
   | "category_studies"
@@ -8,7 +9,7 @@ export type LayoutFamily =
   | "detail_studies"
   | "custom_program"
   | "contact";
-export type LayoutTone = "clay" | "amber" | "teal" | "slate";
+export type LayoutTone = "clay" | "amber" | "teal" | "slate" | "indigo";
 export type MotionPreset = "bold" | "medium" | "reduced";
 export type MediaMode = "footage" | "abstract" | "hybrid";
 export type MediaExperienceKind =
@@ -24,6 +25,7 @@ export type MediaExperienceKind =
 export type ChapterStyle = "linear" | "branched" | "stacked" | "carousel" | "timeline";
 export type RouteInteractionStyle = "chapter" | "compact" | "restrained" | "program";
 export type OrnamentPreset =
+  | "services_hub"
   | "counts_flow"
   | "surveys_matrix"
   | "studies_signal"

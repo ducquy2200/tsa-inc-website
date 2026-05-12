@@ -22,6 +22,7 @@ export interface ResolvedRouteLayout {
 }
 
 const toneDefaults: Record<LayoutFamily, LayoutTone> = {
+  services_hub: "indigo",
   category_counts: "clay",
   category_surveys: "amber",
   category_studies: "teal",
@@ -33,6 +34,7 @@ const toneDefaults: Record<LayoutFamily, LayoutTone> = {
 };
 
 const mediaModeDefaults: Record<LayoutFamily, MediaMode> = {
+  services_hub: "hybrid",
   category_counts: "hybrid",
   category_surveys: "hybrid",
   category_studies: "hybrid",
@@ -44,6 +46,13 @@ const mediaModeDefaults: Record<LayoutFamily, MediaMode> = {
 };
 
 const familyMotionDefaults: Record<LayoutFamily, RouteMotionConfig> = {
+  services_hub: {
+    interactionStyle: "chapter",
+    ornamentPreset: "services_hub",
+    assetPlacement: "right",
+    panelHeight: "tall",
+    scrubStrength: 0.94,
+  },
   category_counts: {
     interactionStyle: "chapter",
     ornamentPreset: "counts_flow",
@@ -103,6 +112,13 @@ const familyMotionDefaults: Record<LayoutFamily, RouteMotionConfig> = {
 };
 
 const familyExperienceDefaults: Record<LayoutFamily, RouteExperienceConfig> = {
+  services_hub: {
+    experienceKind: "surveys_decision_matrix",
+    chapterCount: 4,
+    chapterStyle: "branched",
+    variantId: "services-hub-matrix",
+    assetBundleId: "services-hub",
+  },
   category_counts: {
     experienceKind: "counts_lane_atlas",
     chapterCount: 5,
@@ -162,6 +178,10 @@ const familyExperienceDefaults: Record<LayoutFamily, RouteExperienceConfig> = {
 };
 
 const familyChapterDefaults: Record<LayoutFamily, RouteChapterConfig> = {
+  services_hub: {
+    labels: ["Counts", "Surveys", "Studies", "Custom"],
+    metricHints: ["Volumes", "Behavior", "Diagnostics", "Program"],
+  },
   category_counts: {
     labels: ["Context", "Approach", "Peak Load", "Queue Release", "Output"],
     metricHints: ["Coverage", "Window", "Load", "Dissipation", "Package"],
@@ -197,119 +217,126 @@ const familyChapterDefaults: Record<LayoutFamily, RouteChapterConfig> = {
 };
 
 export const routeMotionConfig: Record<string, RouteMotionConfig> = {
-  "/counts": {
+  "/services": {
+    interactionStyle: "chapter",
+    ornamentPreset: "services_hub",
+    assetPlacement: "right",
+    panelHeight: "tall",
+    scrubStrength: 0.94,
+  },
+  "/services/counts": {
     interactionStyle: "chapter",
     ornamentPreset: "counts_flow",
     assetPlacement: "left",
     panelHeight: "tall",
     scrubStrength: 1.06,
   },
-  "/surveys": {
+  "/services/surveys": {
     interactionStyle: "chapter",
     ornamentPreset: "surveys_matrix",
     assetPlacement: "right",
     panelHeight: "tall",
     scrubStrength: 0.92,
   },
-  "/studies": {
+  "/services/studies": {
     interactionStyle: "chapter",
     ornamentPreset: "studies_signal",
     assetPlacement: "center",
     panelHeight: "tall",
     scrubStrength: 1.1,
   },
-  "/counts/intersection-turning-movement-counts": {
+  "/services/counts/intersection-turning-movement-counts": {
     interactionStyle: "compact",
     ornamentPreset: "detail_counts",
     assetPlacement: "left",
     panelHeight: "medium",
     scrubStrength: 0.95,
   },
-  "/counts/atr-volume-classification-loop-detector-and-road-tube-counts": {
+  "/services/counts/atr-volume-classification-loop-detector-and-road-tube-counts": {
     interactionStyle: "compact",
     ornamentPreset: "detail_counts",
     assetPlacement: "right",
     panelHeight: "medium",
     scrubStrength: 0.9,
   },
-  "/counts/pedestrian-counts": {
+  "/services/counts/pedestrian-counts": {
     interactionStyle: "compact",
     ornamentPreset: "detail_counts",
     assetPlacement: "center",
     panelHeight: "medium",
     scrubStrength: 0.88,
   },
-  "/surveys/license-plate-survey": {
+  "/services/surveys/license-plate-survey": {
     interactionStyle: "compact",
     ornamentPreset: "detail_surveys",
     assetPlacement: "right",
     panelHeight: "medium",
     scrubStrength: 0.9,
   },
-  "/surveys/parking-occupancy-survey": {
+  "/services/surveys/parking-occupancy-survey": {
     interactionStyle: "compact",
     ornamentPreset: "detail_surveys",
     assetPlacement: "left",
     panelHeight: "medium",
     scrubStrength: 0.84,
   },
-  "/surveys/vehicle-occupancy-surveys": {
+  "/services/surveys/vehicle-occupancy-surveys": {
     interactionStyle: "compact",
     ornamentPreset: "detail_surveys",
     assetPlacement: "center",
     panelHeight: "medium",
     scrubStrength: 0.86,
   },
-  "/ball-bank-study": {
+  "/services/studies/ball-bank-study": {
     interactionStyle: "compact",
     ornamentPreset: "detail_studies",
     assetPlacement: "left",
     panelHeight: "medium",
     scrubStrength: 0.9,
   },
-  "/cordon-counts": {
+  "/services/studies/cordon-counts": {
     interactionStyle: "compact",
     ornamentPreset: "detail_studies",
     assetPlacement: "right",
     panelHeight: "medium",
     scrubStrength: 0.94,
   },
-  "/delay-studies": {
+  "/services/studies/delay-studies": {
     interactionStyle: "compact",
     ornamentPreset: "detail_studies",
     assetPlacement: "center",
     panelHeight: "medium",
     scrubStrength: 0.88,
   },
-  "/gap-study": {
+  "/services/studies/gap-study": {
     interactionStyle: "compact",
     ornamentPreset: "detail_studies",
     assetPlacement: "left",
     panelHeight: "medium",
     scrubStrength: 0.92,
   },
-  "/gps-travel-runs": {
+  "/services/studies/gps-travel-runs": {
     interactionStyle: "compact",
     ornamentPreset: "detail_studies",
     assetPlacement: "right",
     panelHeight: "medium",
     scrubStrength: 0.96,
   },
-  "/radar-speed-studies": {
+  "/services/studies/radar-speed-studies": {
     interactionStyle: "compact",
     ornamentPreset: "detail_studies",
     assetPlacement: "center",
     panelHeight: "medium",
     scrubStrength: 0.87,
   },
-  "/travel-time-studies": {
+  "/services/studies/travel-time-studies": {
     interactionStyle: "compact",
     ornamentPreset: "detail_studies",
     assetPlacement: "left",
     panelHeight: "medium",
     scrubStrength: 1,
   },
-  "/customized-data-collection": {
+  "/services/customized-data-collection": {
     interactionStyle: "program",
     ornamentPreset: "custom_builder",
     assetPlacement: "left",
@@ -326,119 +353,126 @@ export const routeMotionConfig: Record<string, RouteMotionConfig> = {
 };
 
 export const routeExperienceConfig: Record<string, RouteExperienceConfig> = {
-  "/counts": {
+  "/services": {
+    experienceKind: "surveys_decision_matrix",
+    chapterCount: 4,
+    chapterStyle: "branched",
+    variantId: "services-hub-matrix",
+    assetBundleId: "services-hub",
+  },
+  "/services/counts": {
     experienceKind: "counts_lane_atlas",
     chapterCount: 5,
     chapterStyle: "linear",
     variantId: "counts-overview-atlas",
     assetBundleId: "counts-overview",
   },
-  "/surveys": {
+  "/services/surveys": {
     experienceKind: "surveys_decision_matrix",
     chapterCount: 4,
     chapterStyle: "branched",
     variantId: "surveys-overview-matrix",
     assetBundleId: "surveys-overview",
   },
-  "/studies": {
+  "/services/studies": {
     experienceKind: "studies_evidence_observatory",
     chapterCount: 6,
     chapterStyle: "linear",
     variantId: "studies-overview-observatory",
     assetBundleId: "studies-overview",
   },
-  "/counts/intersection-turning-movement-counts": {
+  "/services/counts/intersection-turning-movement-counts": {
     experienceKind: "detail_counts_stackdeck",
     chapterCount: 4,
     chapterStyle: "stacked",
     variantId: "detail-counts-turning",
     assetBundleId: "detail-counts-turning",
   },
-  "/counts/atr-volume-classification-loop-detector-and-road-tube-counts": {
+  "/services/counts/atr-volume-classification-loop-detector-and-road-tube-counts": {
     experienceKind: "detail_counts_stackdeck",
     chapterCount: 4,
     chapterStyle: "stacked",
     variantId: "detail-counts-atr",
     assetBundleId: "detail-counts-atr",
   },
-  "/counts/pedestrian-counts": {
+  "/services/counts/pedestrian-counts": {
     experienceKind: "detail_counts_stackdeck",
     chapterCount: 4,
     chapterStyle: "stacked",
     variantId: "detail-counts-pedestrian",
     assetBundleId: "detail-counts-pedestrian",
   },
-  "/surveys/license-plate-survey": {
+  "/services/surveys/license-plate-survey": {
     experienceKind: "detail_surveys_ribbon_track",
     chapterCount: 5,
     chapterStyle: "carousel",
     variantId: "detail-surveys-license",
     assetBundleId: "detail-surveys-license",
   },
-  "/surveys/parking-occupancy-survey": {
+  "/services/surveys/parking-occupancy-survey": {
     experienceKind: "detail_surveys_ribbon_track",
     chapterCount: 5,
     chapterStyle: "carousel",
     variantId: "detail-surveys-parking",
     assetBundleId: "detail-surveys-parking",
   },
-  "/surveys/vehicle-occupancy-surveys": {
+  "/services/surveys/vehicle-occupancy-surveys": {
     experienceKind: "detail_surveys_ribbon_track",
     chapterCount: 5,
     chapterStyle: "carousel",
     variantId: "detail-surveys-occupancy",
     assetBundleId: "detail-surveys-occupancy",
   },
-  "/ball-bank-study": {
+  "/services/studies/ball-bank-study": {
     experienceKind: "detail_studies_lens_lab",
     chapterCount: 5,
     chapterStyle: "linear",
     variantId: "detail-studies-ball-bank",
     assetBundleId: "detail-studies-ball-bank",
   },
-  "/cordon-counts": {
+  "/services/studies/cordon-counts": {
     experienceKind: "detail_studies_lens_lab",
     chapterCount: 5,
     chapterStyle: "linear",
     variantId: "detail-studies-cordon",
     assetBundleId: "detail-studies-cordon",
   },
-  "/delay-studies": {
+  "/services/studies/delay-studies": {
     experienceKind: "detail_studies_lens_lab",
     chapterCount: 5,
     chapterStyle: "linear",
     variantId: "detail-studies-delay",
     assetBundleId: "detail-studies-delay",
   },
-  "/gap-study": {
+  "/services/studies/gap-study": {
     experienceKind: "detail_studies_lens_lab",
     chapterCount: 5,
     chapterStyle: "linear",
     variantId: "detail-studies-gap",
     assetBundleId: "detail-studies-gap",
   },
-  "/gps-travel-runs": {
+  "/services/studies/gps-travel-runs": {
     experienceKind: "detail_studies_lens_lab",
     chapterCount: 5,
     chapterStyle: "linear",
     variantId: "detail-studies-gps",
     assetBundleId: "detail-studies-gps",
   },
-  "/radar-speed-studies": {
+  "/services/studies/radar-speed-studies": {
     experienceKind: "detail_studies_lens_lab",
     chapterCount: 5,
     chapterStyle: "linear",
     variantId: "detail-studies-radar",
     assetBundleId: "detail-studies-radar",
   },
-  "/travel-time-studies": {
+  "/services/studies/travel-time-studies": {
     experienceKind: "detail_studies_lens_lab",
     chapterCount: 5,
     chapterStyle: "linear",
     variantId: "detail-studies-travel-time",
     assetBundleId: "detail-studies-travel-time",
   },
-  "/customized-data-collection": {
+  "/services/customized-data-collection": {
     experienceKind: "custom_program_flow_composer",
     chapterCount: 6,
     chapterStyle: "timeline",
@@ -455,27 +489,27 @@ export const routeExperienceConfig: Record<string, RouteExperienceConfig> = {
 };
 
 export const routeChapterConfig: Record<string, RouteChapterConfig> = {
-  "/counts/intersection-turning-movement-counts": {
+  "/services/counts/intersection-turning-movement-counts": {
     labels: ["Lane Setup", "Turn Capture", "Peak Filter", "TM Report"],
     metricHints: ["Approach", "Movement", "Interval", "Package"],
   },
-  "/counts/atr-volume-classification-loop-detector-and-road-tube-counts": {
+  "/services/counts/atr-volume-classification-loop-detector-and-road-tube-counts": {
     labels: ["Sensor Setup", "Stream Capture", "Class QA", "Trend Output"],
     metricHints: ["Station", "Duration", "Class", "Delivery"],
   },
-  "/counts/pedestrian-counts": {
+  "/services/counts/pedestrian-counts": {
     labels: ["Crossing Scope", "Walk Capture", "Peak Signal", "Ped Output"],
     metricHints: ["Point", "Volume", "Window", "Report"],
   },
-  "/surveys/license-plate-survey": {
+  "/services/surveys/license-plate-survey": {
     labels: ["Checkpoint", "Match Set", "OD Build", "Pattern", "Output"],
     metricHints: ["Stations", "Pair Rate", "Matrix", "Insight", "Delivery"],
   },
-  "/surveys/parking-occupancy-survey": {
+  "/services/surveys/parking-occupancy-survey": {
     labels: ["Zone Scope", "Occupancy", "Turnover", "Pressure", "Output"],
     metricHints: ["Inventory", "Load", "Cycle", "Stress", "Report"],
   },
-  "/surveys/vehicle-occupancy-surveys": {
+  "/services/surveys/vehicle-occupancy-surveys": {
     labels: ["Rules", "Sample", "Person-Rate", "Delta", "Output"],
     metricHints: ["Method", "Window", "Occupancy", "Compare", "Package"],
   },
@@ -486,21 +520,25 @@ function inferLayoutFamily(page: PageContent): LayoutFamily {
     return page.layoutFamily;
   }
 
+  if (page.route === "/services") {
+    return "services_hub";
+  }
+
   if (page.meta.template === "category") {
-    if (page.route === "/counts") {
+    if (page.route === "/services/counts") {
       return "category_counts";
     }
-    if (page.route === "/surveys") {
+    if (page.route === "/services/surveys") {
       return "category_surveys";
     }
     return "category_studies";
   }
 
   if (page.meta.template === "detail") {
-    if (page.route.startsWith("/counts/")) {
+    if (page.route.startsWith("/services/counts/")) {
       return "detail_counts";
     }
-    if (page.route.startsWith("/surveys/")) {
+    if (page.route.startsWith("/services/surveys/")) {
       return "detail_surveys";
     }
     return "detail_studies";
